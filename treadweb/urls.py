@@ -1,8 +1,10 @@
 from django.urls import path
+from django.urls import re_path
 from . import views
 
 app_name = 'treadweb'
 urlpatterns = [
+    path('', views.home_page, name='home'),
     # path('', views.IndexView.as_view(), name='index'),
     # path('<int:pk>/', views.DetailView.as_view(), name='detail'),
     # path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
