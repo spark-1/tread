@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title></title>
+<title>트리드 - 트렌드를 읽다</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 
@@ -25,21 +25,58 @@
 		<div id="menu">
 			<ul>
                 {% block menu %}
-				<li class="current_page_item"><a href="#" accesskey="1" title="">Home</a></li>
-				<li><a href="#" accesskey="2" title="">Tag</a></li>
-				<li><a href="#" accesskey="3" title="">Rank</a></li>
-				<li><a href="#" accesskey="4" title="">Movie</a></li>
+				<li class="current_page_item"><a href="/tread/" accesskey="1" title="">Home</a></li>
+				<li><a href="/tread/search/" accesskey="2" title="">Search</a></li>
+				<li><a href="/tread/rank/" accesskey="3" title="">Rank</a></li>
+				<li><a href="/tread/movie/" accesskey="4" title="">Movie</a></li>
                 {% endblock menu %}
 			</ul>
 		</div>
 	</div>
 </div>
 <div id="page-wrapper">
-    {% block banner %}
-    <div id="banner" class="container">여기는 네이버 인기 검색어
+    {% block body0 %}
+        <div class="container table">
+            <table>
+                <thead class="table-head">
+                <tr>
+                    <th>전체연령대</th>
+                    <th>10대</th>
+                    <th>20대</th>
+                    <th>30대</th>
+                </tr>
+               </thead>
+                <tbody class="table-body">
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                    <td>Cell 3</td>
+                    <td>Cell 4</td>
+                </tr>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                    <td>Cell 3</td>
+                    <td>Cell 4</td>
+                </tr>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                    <td>Cell 3</td>
+                    <td>Cell 4</td>
+                </tr>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                    <td>Cell 3</td>
+                    <td>Cell 4</td>
+                </tr>
+            </table>
+        </div>
+    <div id="banner" class="container">
         <div id="chart"></div>
     </div>
-    {% endblock banner %}
+    {% endblock body0 %}
     <hr width="95%" color="#D3000D" noshade />
     {% block page %}
 	<div id="page" class="container">
