@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
 
-class Naver:
+class NaverShopping:
     # 쇼핑 카테고리를 한글로 입력하면 categoryID로 변환하여 리턴하는 함수
     # https://shopping.naver.com/  에 접속 후 카테고리 더보기에서 카테고리 이름 확인할 수 있음
     # 남 / 여 공통으로 있는 카테고리의 경우 여성은 '여성 '을 남성은 '남성 '을 추가해서 입력해야함.   ex) '티셔츠' -> '여성 티셔츠' or '남성 티셔츠'
@@ -183,105 +183,6 @@ class Naver:
                   'MP3/이어폰/헤드폰': '50000802', '기타 전자제품': '50001611', '향수': '50000014', '여성향수': '50001663',
                   '남성향수': '50001664', '면세점': '50000010'}
         return categoryID[name]
-
-    # 전체, 10대, 20대, 30대 검색어 순위를 보여주는 함수 (dict 형태로 리턴)
-    # year, month, day, hour, min, second -> 정수 형태로 입력 (second는 입력 안하면 00초 일 때로 설정됨)
-    # ex) naver_searchlist(2019, 5, 21, 23, 30, 0)
-    def naver_searchlist(self, year, month, day, hour, minute, second=0):
-        if month < 10:
-            month = '0' + str(month)
-        if day < 10:
-            day = '0' + str(day)
-        if hour < 10:
-            hour = '0' + str(hour)
-        if minute < 10:
-            minute = '0' + str(minute)
-        if second < 10:
-            second = '0' + str(second)
-
-        time = str(year) + '-' + str(month) + '-' + str(day) + 'T' + str(hour) + ':' + str(minute) + ':' + str(second)
-
-        url = 'https://datalab.naver.com/keyword/realtimeList.naver?datetime=' + time
-        response = requests.get(url, headers = headers)
-        soup = BeautifulSoup(response.content, 'lxml')
-
-        rank_tabs = soup.select('.keyword_rank')[0:4]
-
-        result = {}
-
-        for tab in rank_tabs:
-            ranks = tab.select('.list .title')
-            title = tab.select('.rank_title')[0].text
-            result[title] = []
-
-            for rank in ranks:
-                result[title].append(rank.text)
-
-        # for data in result:
-        #     print(data)
-        #     print(result[data])
-        return result
-
-    # 키워드의 검색 빈도를 시간 단위로 출력해주는 함수
-    # dict 형태로 리턴                      key -> index , value -> [날짜, 검색 빈도값]
-    # ex) keyword_search("2018-05-01", "2019-04-01", "month", "핸드폰", ["갤럭시", "아이폰"],device='mo', age=['1','2'],gender='m')
-    # startTime, endTime -> yyyy-MM-dd 형식으로 사용
-    # timeUnit -> month, week, date 중 택 1
-    # mainKeyword -> 상위 주제어  ex) "유튜브"
-    # keywords -> 하위 주제어 (최대 20개까지 입력 가능) ex) ["유튜버","먹방","ASMR"]
-    # device -> 검색할 때 사용한 기기 통계 (입력 안하면 pc + mobile 결과 출력) ex) "pc" or "mo"
-    # age -> 검색 연령대 설정 (입력 안하면 전 연령대 결과 출력, 여러 연령대 결과 출력하고 싶을 때는 ["1","2","3"] 이런 식으로 리스트 입력)
-    # - 1: 0∼12세
-    # - 2: 13∼18세
-    # - 3: 19∼24세
-    # - 4: 25∼29세
-    # - 5: 30∼34세
-    # - 6: 35∼39세
-    # - 7: 40∼44세
-    # - 8: 45∼49세
-    # - 9: 50∼54세
-    # - 10: 55∼59세
-    # - 11: 60세 이상
-    # gender -> 검색 성별 설정 (입력 안하면 male + female 결과 출력) ex) "m" or "f"
-    def keyword_search(self, startTime, endTime, timeUnit, mainKeyword, keywords, device='', age='0', gender=''):
-        client_id = "gDb5rUUUu3cNZt3fIhxy"
-        client_secret = "HWP6j_9S6w"
-        url = "https://openapi.naver.com/v1/datalab/search";
-        body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"" + timeUnit + "\",\"keywordGroups\":[{\"groupName\":\"" + mainKeyword + "\",\"keywords\":["
-        body += ("\"" + keywords[0] + "\"")
-        for i in range(1, len(keywords)):
-            body += (",\"" + keywords[i] + "\"")
-        body += "]}]"
-
-        if device != '':
-            body += (",\"device\":\"" + device + "\"")
-
-        if age != '0':
-            if len(age) == 1:
-                body += (",\"age\":\"" + age + "\"")
-            else:
-                body += (",\"age\":[\"" + age[0] + "\"")
-                for i in range(1, len(age)):
-                    body  += (",\"" + age[i] + "\"")
-                body += "]"
-
-        if gender != '':
-            body += (",\"gender\":\"" + gender + "\"")
-        body += "}"
-
-        request = urllib.request.Request(url)
-        request.add_header("X-Naver-Client-Id",client_id)
-        request.add_header("X-Naver-Client-Secret",client_secret)
-        request.add_header("Content-Type","application/json")
-        response = urllib.request.urlopen(request, data=body.encode("utf-8"))
-        rescode = response.getcode()
-        if(rescode==200):
-            response_body = response.read()
-            tmp = response_body.decode('utf-8')
-            ret = self.str_to_dict(tmp)
-            return ret
-        else:
-            print("Error Code:" + rescode)
 
     # 네이버 쇼핑에서 해당 카테고리의 검색 빈도를 보여주는 함수
     # dict 형태로 리턴                      key -> index , value -> [날짜, 검색 빈도값]
@@ -475,10 +376,8 @@ class Naver:
         return ret
 
 if __name__=='__main__':
-    naver = Naver()
-    #a = naver.naver_searchlist(2019, 5, 21, 23, 30, 0)
-    #a = naver.keyword_search("2018-05-01", "2019-04-01", "month", "핸드폰", ["갤럭시", "아이폰"], device='mo', age=['1', '2'], gender='m')
-    #a = naver.trend_search("2018-05-01", "2018-05-31", "date", "여성 티셔츠")
+    naver = NaverShopping()
+    a = naver.trend_search("2018-05-01", "2018-05-31", "date", "여성 티셔츠")
     #a = naver.trend_search_age("2018-05-01", "2018-05-31", "date", "여성 티셔츠", ages=['10','20'])
-    #a = naver.trend_search_gender("2018-05-01", "2018-05-31", "date", "여성 티셔츠")
+    # a = naver.trend_search_gender("2018-05-01", "2018-05-31", "date", "여성 티셔츠")
     print(a)
