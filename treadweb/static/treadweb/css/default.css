@@ -41,11 +41,6 @@
 	{
 	}
 
-	a
-	{
-		color: #D5000D;
-	}
-
 	a:hover
 	{
 		text-decoration: none;
@@ -73,6 +68,7 @@
 	{
 		margin: 0px auto;
 		width: 100%;
+        display:block;
 	}
 
 
@@ -893,7 +889,7 @@
 	form > .textbox {
 	  outline: 0;
 	  height: 42px;
-	  width: 244px;
+	  width: 80%;
 	  line-height: 42px;
 	  padding: 0 16px;
 	  background-color: rgba(255, 255, 255, 0.8);
@@ -913,7 +909,7 @@
 	  background: none;
 	  background-color: rgba(231, 0, 18, 0.9);
 	  height: 42px;
-	  width: 42px;
+	  width: 18%;
 	  text-align: center;
 	  line-height: 42px;
 	  border: 0;
@@ -931,3 +927,50 @@
 	form > .button:hover {
 	  background-color: rgba(0, 150, 136, 0.8);
 	}
+
+    /*****************************************
+     rank list
+     */
+
+    .keyword_rank
+    {
+        width:70%;
+        margin: auto;
+    }
+
+    .rank_inner
+    {
+        width:23%;
+        margin: 5px;
+        float:left;
+        text-align: center;
+        border: 1px solid #337ab7;
+        padding: 3% 0px;
+    }
+
+    .rank_title
+    {
+        color:black;
+        font-size: 24px;
+    }
+
+    .rank_list
+    {
+        padding-top: 10%;
+    }
+
+    .list
+    {
+        padding-top: 6%;
+    }
+
+    .list:hover
+    {
+        text-decoration:underline;
+        font-weight:bold;
+    }
+
+    .list_area
+    {
+        color: black;
+    }

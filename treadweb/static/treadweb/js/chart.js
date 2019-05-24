@@ -1,5 +1,5 @@
 var chart = c3.generate({
-    bindto: '#chart',
+    bindto: '#main-chart',
     padding: {
         top: 30,
         bottom: 30,
