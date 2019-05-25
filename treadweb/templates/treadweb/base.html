@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>트리드 - 트렌드를 읽다</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+    {% load staticfiles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.18/c3.min.css">
+    <link href="{% static 'treadweb/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'treadweb/css/default.css' %}" rel="stylesheet" type="text/css" media="all" />
+
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><a href="#"><img src="{% static 'treadweb/img/tread_logo.jpg' %}" width="160" height="80" alt="" /></a></h1>
+		</div>
+		<div id="menu">
+			<ul>
+                {% block menu %}
+				<li class="current_page_item"><a href="/tread/" accesskey="1" title="">Home</a></li>
+				<li><a href="/tread/search/" accesskey="2" title="">Search</a></li>
+				<li><a href="/tread/rank/" accesskey="3" title="">Rank</a></li>
+				<li><a href="/tread/movie/" accesskey="4" title="">Movie</a></li>
+                {% endblock menu %}
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="page-wrapper">
+    {% block body0 %}
+        <div class="container">
+            <div class="keyword_rank">
+                <div class="rank_inner">
+                    <strong class="rank_title">전체 연령대</strong>
+                    <ul class="rank_list">
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">1</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">2</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">3</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">4</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="rank_inner">
+                    <strong class="rank_title">10대</strong>
+                    <ul class="rank_list">
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">1</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">2</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">3</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">4</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            <div class="rank_inner">
+                    <strong class="rank_title">20대</strong>
+                    <ul class="rank_list">
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">1</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">2</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">3</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">4</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            <div class="rank_inner">
+                    <strong class="rank_title">30대</strong>
+                    <ul class="rank_list">
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">1</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">2</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">3</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">4</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <div id="banner" class="container">
+        <div id="main-chart"></div>
+    </div>
+    {% endblock body0 %}
+    <hr width="95%" color="#D3000D" noshade />
+    {% block page %}
+	<div id="page" class="container">
+		<div id="content">
+			<div class="title">
+				<h2>여기는 구글 트렌드</h2>
+			</div>
+			<p>어떤 핫한 것들이 있는지 알아보자</p>
+			<div id="two-column">
+				<div class="box1">
+					<ul class="default">
+						<li><a href="#">그래프</a></li>
+					</ul>
+					<a href="#" class="button button-small">버튼</a>
+				</div>
+				<div class="box2">
+					<ul class="default">
+						<li><a href="#">그래프</a></li>
+					</ul>
+					<a href="#" class="button button-small">버튼</a>
+				</div>
+			</div>
+
+		</div>
+		<div id="sidebar">
+			<div class="title">
+				<h2>사이드바</h2>
+			</div>
+			<ul class="default">
+				<li><a href="#">뭐를 넣을까</a></li>
+			</ul>
+			<div class="section">
+				<h3>그래프</h3>
+				<a href="#" class="button button-small">버튼</a>
+			</div>
+		</div>
+	</div>
+    {% endblock %}
+</div>
+{% block body1 %}
+<div class="wrapper">
+	<div id="three-column" class="container">
+		<div id="tbox1">
+			<div class="title">
+				<h2>Naver</h2>
+			</div>
+			<p>Hot Tags</p>
+			<a href="#" class="button">More</a> </div>
+		<div id="tbox2">
+			<div class="title">
+				<h2>Google</h2>
+			</div>
+			<p>Hot Tags</p>
+			<a href="#" class="button">More</a> </div>
+		<div id="tbox3">
+			<div class="title">
+				<h2>Youtube</h2>
+			</div>
+			<p>Hot Tags</p>
+			<a href="#" class="button">More</a> </div>
+	</div>
+
+</div>
+{% endblock body1 %}
+{% block body2 %}
+<div id="wrapper2">
+	<div class="container">
+		<div class="title">
+			<h2>우리 팀 소개</h2>
+		</div>
+		<p> 팀 소개 및 목표(따로 페이지 둘 예정) </p>
+	</div>
+</div>
+{% endblock body2 %}
+<div id="copyright" class="container">
+	<p>&copy; All rights reserved. | Design by TREAD.</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'treadweb/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'treadweb/js/chart.js' %}"></script>
+</body>
+</html>
