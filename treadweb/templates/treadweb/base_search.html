@@ -9,8 +9,9 @@
 
 {% block body0 %}
     <div id="searchbar">
-        <form method="post">
-          <input type="text" class="textbox" placeholder="Search">
+        <form action="{% url 'treadweb:search' %}" method="post">
+            {% csrf_token %}
+          <input type="text" class="textbox" placeholder="Search" name="keyword">
           <input title="Search" value="" type="submit" class="button">
         </form>
     </div>
@@ -150,35 +151,25 @@
 {% block body2 %}
     	<div id="page" class="container">
         {% if bar_result %}
+            <script type="text/javascript">
+                var bar_data = {{ bar_result | safe }};
+            </script>
             <div id="content">
                 <div class="title">
                     <h2>Google Trend</h2>
                 </div>
-                <div id="two-column">
-                    <div class="box1">
-                        <ul class="default">
-                            <li><a href="#">그래프</a></li>
-                        </ul>
-                    </div>
-                    <div class="box2">
-                        <ul class="default">
-                            <li><a href="#">그래프</a></li>
-                        </ul>
-                    </div>
-                </div>
+                <div id="bar-chart"></div>
             </div>
         {% endif %}
-        {% if pie_result %}
+        {% if donut_result %}
+            <script type="text/javascript">
+                var donut_data = {{ donut_result | safe }};
+            </script>
             <div id="sidebar">
                 <div class="title">
                     <h2>사이드바</h2>
                 </div>
-                <ul class="default">
-                    <li><a href="#">Pie Chart</a></li>
-                </ul>
-                <div class="section">
-                    <h3>그래프</h3>
-                </div>
+                <div id="donut-chart"></div>
             </div>
         {% endif %}
 	</div>
