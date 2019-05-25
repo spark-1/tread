@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block menu %}
-    <li><a href="/tread/" accesskey="1" title="">Home</a></li>
-    <li class="current_page_item"><a href="/tread/search/" accesskey="2" title="">Search</a></li>
-    <li><a href="/tread/rank" accesskey="3" title="">Rank</a></li>
-    <li><a href="/tread/movie" accesskey="4" title="">Movie</a></li>
+    <li><a href="{% url 'treadweb:home' %}" accesskey="1" title="">Home</a></li>
+    <li class="current_page_item"><a href="{% url 'treadweb:search' %}" accesskey="2" title="">Search</a></li>
+    <li><a href="{% url 'treadweb:rank' %}" accesskey="3" title="">Rank</a></li>
+    <li><a href="{% url 'treadweb:movie' %}" accesskey="4" title="">Movie</a></li>
 {% endblock menu %}
 
 {% block body0 %}
@@ -14,4 +14,172 @@
           <input title="Search" value="" type="submit" class="button">
         </form>
     </div>
+            <div class="container">
+            <div class="keyword_rank">
+                <div class="rank_inner">
+                    <strong class="rank_title">전체 연령대</strong>
+                    <ul class="rank_list">
+                        <li class="list">
+                            <a href="{% url 'treadweb:search_keyword' "data" %}" class="list_area">
+                                <em class="num">1</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="{% url 'treadweb:search_keyword' "data" %}" class="list_area">
+                                <em class="num">2</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="{% url 'treadweb:search_keyword' "data" %}" class="list_area">
+                                <em class="num">3</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="{% url 'treadweb:search_keyword' "data" %}" class="list_area">
+                                <em class="num">4</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="rank_inner">
+                    <strong class="rank_title">10대</strong>
+                    <ul class="rank_list">
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">1</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">2</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">3</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">4</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            <div class="rank_inner">
+                    <strong class="rank_title">20대</strong>
+                    <ul class="rank_list">
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">1</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">2</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">3</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">4</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            <div class="rank_inner">
+                    <strong class="rank_title">30대</strong>
+                    <ul class="rank_list">
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">1</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">2</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">3</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="#" class="list_area">
+                                <em class="num">4</em>
+                                <span class="list_title">data</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 {% endblock body0 %}
+
+{% block body1 %}
+    {% if line_result %}
+        <script type="text/javascript">
+         var line_data = {{ line_result | safe }};
+        </script>
+        <div id="banner" class="container">
+            <div id="line-chart"></div>
+        </div>
+    {% endif %}
+{% endblock body1 %}
+
+{% block body2 %}
+    	<div id="page" class="container">
+        {% if bar_result %}
+            <div id="content">
+                <div class="title">
+                    <h2>Google Trend</h2>
+                </div>
+                <div id="two-column">
+                    <div class="box1">
+                        <ul class="default">
+                            <li><a href="#">그래프</a></li>
+                        </ul>
+                    </div>
+                    <div class="box2">
+                        <ul class="default">
+                            <li><a href="#">그래프</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if pie_result %}
+            <div id="sidebar">
+                <div class="title">
+                    <h2>사이드바</h2>
+                </div>
+                <ul class="default">
+                    <li><a href="#">Pie Chart</a></li>
+                </ul>
+                <div class="section">
+                    <h3>그래프</h3>
+                </div>
+            </div>
+        {% endif %}
+	</div>
+{% endblock body2 %}

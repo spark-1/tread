@@ -2,6 +2,7 @@ from datetime import datetime
 import requests
 import urllib.request
 from bs4 import BeautifulSoup
+import json
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
 
@@ -22,7 +23,6 @@ class naverData():
             second = '0' + str(second)
 
         time = str(year) + '-' + str(month) + '-' + str(day) + 'T' + str(hour) + ':' + str(minute) + ':' + str(second)
-
         url = 'https://datalab.naver.com/keyword/realtimeList.naver?datetime=' + time
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.content, 'lxml')
@@ -95,7 +95,7 @@ class naverData():
         rescode = response.getcode()
         if(rescode==200):
             response_body = response.read()
-            return response_body.decode('utf-8')
+            return json.loads(response_body.decode('utf-8'))
         else:
             print("Error Code:" + rescode)
 
@@ -103,5 +103,7 @@ if __name__=='__main__':
     naver = naverData()
     now = datetime.now()
     a = naver.naver_searchlist(now.year, now.month, now.day, now.hour, now.minute, now.second)
-    print(a['전체 연령대'])
-    print(naver.keyword_search("2018-05-01", "2019-04-01", "month", "핸드폰", ["갤럭시", "아이폰"], device='mo', age=['1', '2'], gender='m'))
+    print(a.get('전체 연령대'))
+    res = naver.keyword_search("2018-05-01", now.strftime("%Y-%m-%d"), "month", "핸드폰", ["갤럭시", "아이폰"], device='mo', age=['1', '2'], gender='m')
+    print(res)
+    print(type(res))

@@ -11,6 +11,10 @@ class channel_info :
         self.channel_id = channel_id
         self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
 
+    def load_data(self):
+        info = dict()
+        info['title'] = self.get_channel_title()
+        return info
 
     def get_channel_title(self) :
         #채널명 리턴
