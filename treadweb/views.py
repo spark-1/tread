@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_protect
 from .collector.naverDataLab import NaverDataLab
+from datetime import datetime
 import json
 # Create your views here.
 def home_page(request):
@@ -11,7 +12,9 @@ def home_page(request):
 @csrf_protect
 def search_page(request):
     naver = NaverDataLab()
-    keyword_rank = naver.naver_searchlist(2019, 5, 21, 23, 30, 0)
+    now = datetime.now()
+    time = now.strftime("%Y-%m-%dT%H:%M:%S")
+    keyword_rank = naver.naver_searchlist(time)
     if request.method == "POST" and request.POST.get("keyword"):
         return search_keyword(request, request.POST.get("keyword"))
     return render(request, 'treadweb/base_search.html', {"keyword_rank": keyword_rank})
@@ -20,7 +23,9 @@ def search_page(request):
 @csrf_protect
 def search_keyword(request, keyword):
     naver = NaverDataLab()
-    keyword_rank = naver.naver_searchlist(2019, 5, 21, 23, 30, 0)
+    now = datetime.now()
+    time = now.strftime("%Y-%m-%dT%H:%M:%S")
+    keyword_rank = naver.naver_searchlist(time)
     line_result = [
             ["data1", 30, 200, 100, 400, 150, 250],
             ["data2", 50, 20, 10, 40, 15, 25]

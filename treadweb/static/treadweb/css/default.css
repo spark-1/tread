@@ -338,6 +338,7 @@
 
 	#logo
 	{
+		float:left;
 	}
 
 	#logo h1
@@ -374,10 +375,8 @@
 
 	#menu
 	{
-		position: absolute;
-		right: 0;
-		top: 0;
 		border-left: 1px solid rgba(0,0,0,.2);
+		float:right;
 	}
 
 	#menu ul

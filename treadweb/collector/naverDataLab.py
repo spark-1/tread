@@ -2,6 +2,8 @@ import math
 import requests
 import urllib.request
 from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
+from dateutil import parser
 import json
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
@@ -10,19 +12,7 @@ class NaverDataLab():
     # 전체, 10대, 20대, 30대 검색어 순위를 보여주는 함수 (dict 형태로 리턴)
     # year, month, day, hour, min, second -> 정수 형태로 입력 (second는 입력 안하면 00초 일 때로 설정됨)
     # ex) naver_searchlist(2019, 5, 21, 23, 30, 0)
-    def naver_searchlist(self, year, month, day, hour, minute, second=0):
-        if month < 10:
-            month = '0' + str(month)
-        if day < 10:
-            day = '0' + str(day)
-        if hour < 10:
-            hour = '0' + str(hour)
-        if minute < 10:
-            minute = '0' + str(minute)
-        if second < 10:
-            second = '0' + str(second)
-
-        time = str(year) + '-' + str(month) + '-' + str(day) + 'T' + str(hour) + ':' + str(minute) + ':' + str(second)
+    def naver_searchlist(self, time):
         url = 'https://datalab.naver.com/keyword/realtimeList.naver?datetime=' + time
         response = requests.get(url, headers = headers)
         soup = BeautifulSoup(response.content, 'lxml')
@@ -67,11 +57,14 @@ class NaverDataLab():
     # - 10: 55∼59세
     # - 11: 60세 이상
     # gender -> 검색 성별 설정 (입력 안하면 male + female 결과 출력) ex) "m" or "f"
-    def keyword_search(self, startTime, endTime, timeUnit, mainKeyword, keywords, device='', age='0', gender=''):
+    def keyword_search(self, mainKeyword, keywords, device='', age='0', gender=''):
         client_id = "gDb5rUUUu3cNZt3fIhxy"
         client_secret = "HWP6j_9S6w"
         url = "https://openapi.naver.com/v1/datalab/search";
-        body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"" + timeUnit + "\",\"keywordGroups\":[{\"groupName\":\"" + mainKeyword + "\",\"keywords\":["
+        endTime = datetime.now().date().strftime("%Y-%m-%d")
+        startTime = (parser.parse(endTime) - timedelta(days=30)).strftime("%Y-%m-%d")
+
+        body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"date\",\"keywordGroups\":[{\"groupName\":\"" + mainKeyword + "\",\"keywords\":["
         body += ("\"" + keywords[0] + "\"")
         for i in range(1, len(keywords)):
             body += (",\"" + keywords[i] + "\"")
@@ -133,6 +126,7 @@ class NaverDataLab():
 
 if __name__=='__main__':
     naver = NaverDataLab()
-    a = naver.naver_searchlist(2019, 5, 21, 23, 30, 0)
-    # a = naver.keyword_search("2018-05-01", "2019-04-01", "month", "핸드폰", ["갤럭시", "아이폰"], device='mo', age=['1', '2'], gender='m')
+    # a = naver.naver_searchlist(2019, 5, 21, 23, 30, 0)
+
+    a = naver.keyword_search("핸드폰", ["갤럭시", "아이폰"], device='mo', age=['1', '2'], gender='m')
     print(a)
