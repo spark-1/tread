@@ -27,28 +27,33 @@ class Youtube_search(object) :
         v_data : data = []
         for i in range(len(response)):
             v_data.append({
+                'video_id': response[i]["id"],
                 'publishedAt': response[i]["snippet"]["publishedAt"],
                 'channel_id': response[i]["snippet"]["channelId"],
-                'title': response[i]["snippet"]["title"],
+                'video_title': response[i]["snippet"]["title"],
                 'description': response[i]["snippet"]["description"],
                 'channel_title': response[i]["snippet"]["channelTitle"],
+                'video_thumbnail' : response[i]["snippet"]["thumbnails"]["default"]["url"]
             })
         return v_data
 
 
     def search_video_orderby_view(self):
-        #비디오를 전체 조회수에서 검색
+        #전체 조회수순으로 나열된 영상들의 배열을 v_data 개게 안에 리스트로 담아 넘깁니다
         data = urllib.request.urlopen("https://www.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&maxResults={}&type=video&key={}".format(self.size,self.__developer_key)).read()
         list = json.loads(data)["items"]
         response = list
         v_data: data = []
         for i in range(len(response)):
+
             v_data.append({
+                'video_id': response[i]["id"]["videoId"],
                 'publishedAt': response[i]["snippet"]["publishedAt"],
                 'channel_id': response[i]["snippet"]["channelId"],
-                'title': response[i]["snippet"]["title"],
+                'video_title': response[i]["snippet"]["title"],
                 'description': response[i]["snippet"]["description"],
                 'channel_title': response[i]["snippet"]["channelTitle"],
+                'video_thumbnail': response[i]["snippet"]["thumbnails"]["default"]["url"]
             })
         return v_data
 
@@ -67,6 +72,7 @@ class Youtube_search(object) :
                 'title': response[i]["snippet"]["title"],
                 'description': response[i]["snippet"]["description"],
                 'channel_title': response[i]["snippet"]["channelTitle"],
+                'video_thumbnail': response[i]["snippet"]["thumbnails"]["default"]["url"]
             })
 
         return v_data
@@ -103,34 +109,34 @@ class Youtube_search(object) :
         v_data : data = []
         for i in range(len(response)) :
              v_data.append({
+                'video_id' : response[i]["id"],
                 'publishedAt' : response[i]["snippet"]["publishedAt"],
                 'channel_id' : response[i]["snippet"]["channelId"],
-                'title' : response[i]["snippet"]["title"],
+                'video_title' : response[i]["snippet"]["title"],
                 'description' : response[i]["snippet"]["description"],
                 'channel_title' : response[i]["snippet"]["channelTitle"],
                 'view_count' : response[i]["statistics"]["viewCount"],
                 'like_count' : response[i]["statistics"]["likeCount"],
                 'dislike_count' : response[i]["statistics"]["dislikeCount"],
-                'comment_count' : response[i]["statistics"]["commentCount"]
+                'comment_count' : response[i]["statistics"]["commentCount"],
+                'video_thumbnail': response[i]["snippet"]["thumbnails"]["default"]["url"]
              })
             #defaultAudioLanguage속성을 넣지 않은 영상들도 많아서 ko걸로 구분이 안됨
         return v_data
 
 
-    def get_channel_info(self,data):
-        #search한 영상들의 채널 정보
-        v_data: list = []
-        response = data
-        for i in range(len(response)) :
-            v_data.append({
-                'channel_id' : response[i]["snippet"]["channelId"],
-                'title' : response[i]["snippet"]["title"],
-                'channel_title' : response[i]["snippet"]["channelTitle"],
-                'published' : response[i]["snippet"]["publishedAt"],
-                'description' : response[i]["snippet"]["description"]
-            })
-        return v_data
-    #def video_search_bychannel(self,chId):
+    def get_video_statistics(self,video_id):
+        #비디오 통계가 담긴 딕셔너리 리턴
+        url = urllib.request.urlopen(
+            "https://www.googleapis.com/youtube/v3/videos?part=statistics&id={}&key={}".format(
+                video_id, self.__developer_key)).read()
+        data = json.loads(url)["items"]
+        video_statistics = {}
+        video_statistics["view_count"] = data[0]["statistics"]["viewCount"]
+        video_statistics["like_count"] = data[0]["statistics"]["likeCount"]
+        video_statistics["commnet_count"] = data[0]["statistics"]["commentCount"]
+
+        return video_statistics
 
 
 
