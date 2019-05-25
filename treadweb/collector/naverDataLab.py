@@ -1,4 +1,4 @@
-from datetime import datetime
+import math
 import requests
 import urllib.request
 from bs4 import BeautifulSoup
@@ -6,7 +6,7 @@ import json
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
 
-class naverData():
+class NaverDataLab():
     # 전체, 10대, 20대, 30대 검색어 순위를 보여주는 함수 (dict 형태로 리턴)
     # year, month, day, hour, min, second -> 정수 형태로 입력 (second는 입력 안하면 00초 일 때로 설정됨)
     # ex) naver_searchlist(2019, 5, 21, 23, 30, 0)
@@ -24,7 +24,7 @@ class naverData():
 
         time = str(year) + '-' + str(month) + '-' + str(day) + 'T' + str(hour) + ':' + str(minute) + ':' + str(second)
         url = 'https://datalab.naver.com/keyword/realtimeList.naver?datetime=' + time
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers = headers)
         soup = BeautifulSoup(response.content, 'lxml')
 
         rank_tabs = soup.select('.keyword_rank')[0:4]
@@ -39,12 +39,16 @@ class naverData():
             for rank in ranks:
                 result[title].append(rank.text)
 
+        # for data in result:
+        #     print(data)
+        #     print(result[data])
         return result
 
-    # 키워드 시간 단위별로 검색 빈도 출력 함수
+    # 키워드의 검색 빈도를 시간 단위로 출력해주는 함수
+    # dict 형태로 리턴                      key -> index , value -> [날짜, 검색 빈도값]
     # ex) keyword_search("2018-05-01", "2019-04-01", "month", "핸드폰", ["갤럭시", "아이폰"],device='mo', age=['1','2'],gender='m')
     # startTime, endTime -> yyyy-MM-dd 형식으로 사용
-    # timeUnit -> month, week, day 중 택 1
+    # timeUnit -> month, week, date 중 택 1
     # mainKeyword -> 상위 주제어  ex) "유튜브"
     # keywords -> 하위 주제어 (최대 20개까지 입력 가능) ex) ["유튜버","먹방","ASMR"]
     # device -> 검색할 때 사용한 기기 통계 (입력 안하면 pc + mobile 결과 출력) ex) "pc" or "mo"
@@ -95,15 +99,38 @@ class naverData():
         rescode = response.getcode()
         if(rescode==200):
             response_body = response.read()
-            return json.loads(response_body.decode('utf-8'))
+            tmp = response_body.decode('utf-8')
+            ret = self.str_to_dict(tmp)
+            return ret
         else:
             print("Error Code:" + rescode)
 
+    # api 결과를 dict 형태로 변환해주는 함수
+    def str_to_dict(self, str):
+        ret = dict()
+        cnt = 0
+        idx = 0
+        tmp = str
+        while idx != -1:
+            idx = tmp.find("period")
+            if idx == -1:
+                break
+            date = tmp[idx+9:idx+19]
+            tmp = tmp[idx:]
+            idx = tmp.find("ratio")
+            if idx == -1:
+                break
+            value = tmp[idx+7:idx+11]
+            if value[-1] == ',' or value[-1] == '}':
+                value = value[0:-1]
+            value = math.ceil(float(value))
+            tmp = tmp[idx:]
+            ret[cnt] = [date, value]
+            cnt += 1
+        return ret
+
 if __name__=='__main__':
-    naver = naverData()
-    now = datetime.now()
-    a = naver.naver_searchlist(now.year, now.month, now.day, now.hour, now.minute, now.second)
-    print(a.get('전체 연령대'))
-    res = naver.keyword_search("2018-05-01", now.strftime("%Y-%m-%d"), "month", "핸드폰", ["갤럭시", "아이폰"], device='mo', age=['1', '2'], gender='m')
-    print(res)
-    print(type(res))
+    naver = NaverDataLab()
+    a = naver.naver_searchlist(2019, 5, 21, 23, 30, 0)
+    # a = naver.keyword_search("2018-05-01", "2019-04-01", "month", "핸드폰", ["갤럭시", "아이폰"], device='mo', age=['1', '2'], gender='m')
+    print(a)
