@@ -25,7 +25,7 @@
 <div id="header-wrapper">
 	<div id="header" class="container">
 		<div id="logo">
-			<h1><a href="/tread/"><img src="{% static 'treadweb/img/tread_logo.jpg' %}" width="160" height="80" alt="" /></a></h1>
+			<h1><a href="{% url 'treadweb:home' %}"><img src="{% static 'treadweb/img/tread_logo.jpg' %}" width="160" height="80" alt="logo" /></a></h1>
 		</div>
 		<div id="menu">
 			<ul>
@@ -71,14 +71,6 @@
     </div>
     {% endblock body2 %}
     {% block body3 %}
-    <div id="wrapper2">
-        <div class="container">
-            <div class="title">
-                <h2>우리 팀 소개</h2>
-            </div>
-            <p> 팀 소개 및 목표(따로 페이지 둘 예정) </p>
-        </div>
-    </div>
     {% endblock body3 %}
 </div>
 

@@ -15,126 +15,25 @@
           <input title="Search" value="" type="submit" class="button">
         </form>
     </div>
-            <div class="container">
-            <div class="keyword_rank">
-                <div class="rank_inner">
-                    <strong class="rank_title">전체 연령대</strong>
-                    <ul class="rank_list">
-                        <li class="list">
-                            <a href="{% url 'treadweb:search_keyword' "data" %}" class="list_area">
-                                <em class="num">1</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="{% url 'treadweb:search_keyword' "data" %}" class="list_area">
-                                <em class="num">2</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="{% url 'treadweb:search_keyword' "data" %}" class="list_area">
-                                <em class="num">3</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="{% url 'treadweb:search_keyword' "data" %}" class="list_area">
-                                <em class="num">4</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="rank_inner">
-                    <strong class="rank_title">10대</strong>
-                    <ul class="rank_list">
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">1</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">2</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">3</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">4</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="container">
+        <div class="keyword_rank">
+            {% for age, rank_list in keyword_rank.items %}
             <div class="rank_inner">
-                    <strong class="rank_title">20대</strong>
-                    <ul class="rank_list">
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">1</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">2</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">3</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">4</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            <div class="rank_inner">
-                    <strong class="rank_title">30대</strong>
-                    <ul class="rank_list">
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">1</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">2</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">3</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                        <li class="list">
-                            <a href="#" class="list_area">
-                                <em class="num">4</em>
-                                <span class="list_title">data</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <strong class="rank_title">{{ age }}</strong>
+                <ul class="rank_list">
+                    {% for word in rank_list %}
+                    <li class="list">
+                        <a href="{% url 'treadweb:search_keyword' word %}" class="list_area">
+                            <span class="num">{{ forloop.counter }}</span>
+                            <span class="list_title">{{ word }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
+            {% endfor %}
         </div>
+    </div>
 {% endblock body0 %}
 
 {% block body1 %}
@@ -149,7 +48,7 @@
 {% endblock body1 %}
 
 {% block body2 %}
-    	<div id="page" class="container">
+    	<div class="container">
         {% if bar_result %}
             <script type="text/javascript">
                 var bar_data = {{ bar_result | safe }};
@@ -167,7 +66,7 @@
             </script>
             <div id="sidebar">
                 <div class="title">
-                    <h2>사이드바</h2>
+                    <h2>남/녀 검색 비율</h2>
                 </div>
                 <div id="donut-chart"></div>
             </div>

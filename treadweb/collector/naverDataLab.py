@@ -35,9 +35,11 @@ class NaverDataLab():
             ranks = tab.select('.list .title')
             title = tab.select('.rank_title')[0].text
             result[title] = []
-
+            i = 0
             for rank in ranks:
-                result[title].append(rank.text)
+                if i < 10:
+                    result[title].append(rank.text)
+                    i += 1
 
         # for data in result:
         #     print(data)

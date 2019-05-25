@@ -43,6 +43,6 @@ var donut_chart = c3.generate({
        type: 'donut'
    },
     donut: {
-       title: "Search rate by gender"
+       title: "by gender"
     }
 });
