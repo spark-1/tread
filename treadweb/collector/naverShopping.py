@@ -1,7 +1,7 @@
 import math
-import requests
 import urllib.request
-from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
+from dateutil import parser
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
 
@@ -185,7 +185,7 @@ class NaverShopping:
         return categoryID[name]
 
     # 네이버 쇼핑에서 해당 카테고리의 검색 빈도를 보여주는 함수
-    # dict 형태로 리턴                      key -> index , value -> [날짜, 검색 빈도값]
+    # list 형태로 리턴
     # keyword_search와 사용법 동일
     # ages -> 검색 연령대 설정 (입력 안하면 전 연령대 결과 출력, 여러 연령대 결과 출력하고 싶을 때는 ["1","2","3"] 이런 식으로 리스트 입력)
     # - 10: 10∼19세
@@ -194,11 +194,13 @@ class NaverShopping:
     # - 40: 40∼49세
     # - 50: 50∼59세
     # - 60: 60세 이상
-    def trend_search(self, startDate, endDate, timeUnit, categoryName, device='', ages='0', gender=''):
+    def trend_search(self, categoryName, device='', ages='0', gender=''):
         client_id = "gDb5rUUUu3cNZt3fIhxy"
         client_secret = "HWP6j_9S6w"
         url = "https://openapi.naver.com/v1/datalab/shopping/categories";
-        body = "{\"startDate\":\"" + startDate + "\",\"endDate\":\"" + endDate + "\",\"timeUnit\":\"" + timeUnit + "\",\"category\":[{\"name\":\"" + categoryName + "\",\"param\":[\"" + self.getCategoryID(categoryName) + "\"]}]"
+        endTime = datetime.now().date().strftime("%Y-%m-%d")
+        startTime = (parser.parse(endTime) - timedelta(days=30)).strftime("%Y-%m-%d")
+        body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"date\",\"category\":[{\"name\":\"" + categoryName + "\",\"param\":[\"" + self.getCategoryID(categoryName) + "\"]}]"
 
         if device != '':
             body += (",\"device\":\"" + device + "\"")
@@ -224,34 +226,21 @@ class NaverShopping:
         if (rescode == 200):
             response_body = response.read()
             tmp = response_body.decode('utf-8')
-            ret = self.str_to_dict(tmp)
+            ret = self.str_to_list(tmp, categoryName)
             return ret
         else:
             print("Error Code:" + rescode)
 
     # 네이버 쇼핑에서 해당 카테고리의 검색 빈도를 성별을 나눠서 보여주는 함수
-    # dict 형태로 리턴                      key -> index , value -> [날짜, 성별, 검색 빈도값]
+    # list 형태로 리턴
     # trend_search와 사용법 동일
-    def trend_search_gender(self, startDate, endDate, timeUnit, categoryName, device='', ages='0', gender=''):
+    def trend_search_gender(self, categoryName):
         client_id = "gDb5rUUUu3cNZt3fIhxy"
         client_secret = "HWP6j_9S6w"
         url = "https://openapi.naver.com/v1/datalab/shopping/category/gender"
-        body = "{\"startDate\":\"" + startDate + "\",\"endDate\":\"" + endDate + "\",\"timeUnit\":\"" + timeUnit + "\",\"category\":\"" + self.getCategoryID(categoryName) + "\""
-
-        if device != '':
-            body += (",\"device\":\"" + device + "\"")
-        if ages != '0':
-            if len(ages) == 1:
-                body += (",\"ages\":[\"" + ages[0] + "\"")
-            else:
-                body += (",\"ages\":[\"" + ages[0] + "\"")
-            for i in range(1, len(ages)):
-                body  += (",\"" + ages[i] + "\"")
-            body += "]"
-
-        if gender != '':
-            body += (",\"gender\":\"" + gender + "\"")
-        body += "}"
+        endTime = datetime.now().date().strftime("%Y-%m-%d")
+        startTime = (parser.parse(endTime) - timedelta(days=30)).strftime("%Y-%m-%d")
+        body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"date\",\"category\":\"" + self.getCategoryID(categoryName) + "\"}"
 
         request = urllib.request.Request(url)
         request.add_header("X-Naver-Client-Id", client_id)
@@ -262,34 +251,21 @@ class NaverShopping:
         if (rescode == 200):
             response_body = response.read()
             tmp = response_body.decode('utf-8')
-            ret = self.str_to_dict_gender(tmp)
+            ret = self.str_to_list_gender(tmp, categoryName)
             return ret
         else:
             print("Error Code:" + rescode)
 
     # 네이버 쇼핑에서 해당 카테고리의 검색 빈도를 연령대별로 보여주는 함수
-    # dict 형태로 리턴                      key -> index , value -> [날짜, 연령대, 검색 빈도값]
+    # list 형태로 리턴
     # trend_search와 사용법 동일
-    def trend_search_age(self, startDate, endDate, timeUnit, categoryName, device='', ages='0', gender=''):
+    def trend_search_age(self, categoryName):
         client_id = "gDb5rUUUu3cNZt3fIhxy"
         client_secret = "HWP6j_9S6w"
         url = "https://openapi.naver.com/v1/datalab/shopping/category/age"
-        body = "{\"startDate\":\"" + startDate + "\",\"endDate\":\"" + endDate + "\",\"timeUnit\":\"" + timeUnit + "\",\"category\":\"" + self.getCategoryID(categoryName) + "\""
-
-        if device != '':
-            body += (",\"device\":\"" + device + "\"")
-        if ages != '0':
-            if len(ages) == 1:
-                body += (",\"ages\":[\"" + ages[0] + "\"")
-            else:
-                body += (",\"ages\":[\"" + ages[0] + "\"")
-            for i in range(1, len(ages)):
-                body  += (",\"" + ages[i] + "\"")
-            body += "]"
-
-        if gender != '':
-            body += (",\"gender\":\"" + gender + "\"")
-        body += "}"
+        endTime = datetime.now().date().strftime("%Y-%m-%d")
+        startTime = (parser.parse(endTime) - timedelta(days=30)).strftime("%Y-%m-%d")
+        body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"date\",\"category\":\"" + self.getCategoryID(categoryName) + "\"}"
 
         request = urllib.request.Request(url)
         request.add_header("X-Naver-Client-Id", client_id)
@@ -300,14 +276,15 @@ class NaverShopping:
         if (rescode == 200):
             response_body = response.read()
             tmp = response_body.decode('utf-8')
-            ret = self.str_to_dict_age(tmp)
+            ret = self.str_to_list_age(tmp, categoryName)
             return ret
         else:
             print("Error Code:" + rescode)
 
     # api 결과를 dict 형태로 변환해주는 함수
-    def str_to_dict(self, str):
-        ret = dict()
+    def str_to_list(self, str, keyword):
+        d_list = ['x']
+        v_list = [keyword]
         cnt = 0
         idx = 0
         tmp = str
@@ -325,12 +302,14 @@ class NaverShopping:
                 value = value[0:-1]
             value = math.ceil(float(value))
             tmp = tmp[idx:]
-            ret[cnt] = [date, value]
+            d_list.append(date)
+            v_list.append(value)
             cnt += 1
+        ret = [d_list, v_list]
         return ret
 
-    def str_to_dict_age(self, str):
-        ret = dict()
+    def str_to_list_age(self, str, keyword):
+        dic = dict()
         cnt = 0
         idx = 0
         tmp = str
@@ -348,12 +327,14 @@ class NaverShopping:
             idx = tmp.find("group")
             age = tmp[idx+8:idx+10]
             tmp = tmp[idx:]
-            ret[cnt] = [date, age, value]
+            dic[cnt] = [date, age, value]
             cnt += 1
+        total = dic[cnt - 6][2] + dic[cnt - 5][2] + dic[cnt - 4][2] + dic[cnt - 3][2] + dic[cnt - 2][2] + dic[cnt - 1][2]
+        ret = [['x', '10대', '20대', '30대', '40대', '50대', '60대 이상'], [keyword, round(dic[cnt - 6][2] / total * 100), round(dic[cnt - 5][2] / total * 100), round(dic[cnt - 4][2] / total * 100), round(dic[cnt - 3][2] / total * 100), round(dic[cnt - 2][2] / total * 100), round(dic[cnt - 1][2] / total * 100)]]
         return ret
 
-    def str_to_dict_gender(self, str):
-        ret = dict()
+    def str_to_list_gender(self, str, keyword):
+        dic = dict()
         cnt = 0
         idx = 0
         tmp = str
@@ -367,17 +348,19 @@ class NaverShopping:
             value = tmp[idx+7:idx+11]
             if value[-1] == ',' or value[-1] == '}':
                 value = value[0:-1]
-            value = math.ceil(float(value))
+            value = round(float(value))
             idx = tmp.find("group")
             gender = tmp[idx+8]
             tmp = tmp[idx:]
-            ret[cnt] = [date, gender, value]
+            dic[cnt] = [date, gender, value]
             cnt += 1
+        total = dic[cnt-2][2] + dic[cnt-1][2]
+        ret = [['x', 'm', 'f'],[keyword, round(dic[cnt-1][2]/total * 100), round(dic[cnt-2][2]/total * 100)]]
         return ret
 
 if __name__=='__main__':
     naver = NaverShopping()
-    a = naver.trend_search("2018-05-01", "2018-05-31", "date", "여성 티셔츠")
-    #a = naver.trend_search_age("2018-05-01", "2018-05-31", "date", "여성 티셔츠", ages=['10','20'])
-    # a = naver.trend_search_gender("2018-05-01", "2018-05-31", "date", "여성 티셔츠")
+    # a = naver.trend_search("여성 티셔츠")
+    a = naver.trend_search_age("여성 티셔츠")
+    # a = naver.trend_search_gender("여성 티셔츠")
     print(a)
