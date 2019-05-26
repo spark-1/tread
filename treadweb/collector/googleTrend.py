@@ -11,8 +11,28 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         self.cat = cat
         self.geo = geo
         self.gprop = gprop
+        self.update_pytrend()
+        self.update_payload()
+
+    def update_pytrend(self):
         self.pytrend = TrendReq(hl=self.hl, tz=self.tz)
+
+    def update_payload(self):
         self.pytrend.build_payload(kw_list=self.keyword, cat=self.cat, timeframe=self.timeframe, geo=self.geo, gprop=self.gprop)
+
+    def set_pytrend(self, hl, tz):
+        self.hl = hl
+        self.tz = tz
+        self.update_pytrend()
+        self.update_payload()
+
+    def set_payload(self, keyword, timeframe, cat, geo, gprop):
+        self.keyword = keyword
+        self.timeframe = timeframe
+        self.cat = cat
+        self.geo = geo
+        self.gprop = gprop
+        self.update_payload()
 
     def set_language_to_korean(self): # 데이터의 키 값을 한국어로 설정한다
         self.hl='ko'
@@ -117,26 +137,28 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         plt.style.use('ggplot')  # 더 이쁘게 그려준다
         for key in self.keyword:
             num += 0.1
-            plt.plot(googletrend.interest_over_time_df[key], c=plt.cm.rainbow(num), label=key)
+            plt.plot(self.interest_over_time_df[key], c=plt.cm.rainbow(num), label=key)
         plt.legend(bbox_to_anchor=(1, 1), loc=2)  # 라벨의 위치를 정해준다
         plt.show()
 
 """ 사용 방법 예시 """
-"""
+
 keyword = ['Pizza', 'Italian', 'Spaghetti', 'Breadsticks', 'Sausage']
 
 googletrend = GoogleTrend()
 #googletrend.set_region_to_us()
-googletrend.set_keyword(keyword)
+#googletrend.set_keyword(keyword)
 #print(googletrend.suggestions())
 googletrend.set_timeframe_user('2018-05-20 2019-01-20')
 googletrend.set_property_to_youtube()
 print(googletrend.interest_over_time())
-googletrend.show_interest_over_time()
-"""
+googletrend.set_payload(gprop="news")
+print(googletrend.interest_over_time())
+#googletrend.show_interest_over_time()
 
 
-"""사용 방법 예시 """
+
+""" 함수들 설명 """
 """
 # Login to Google. Only need to run this once, the rest of requests will use the same session.
 pytrend = TrendReq(hl='en-US', tz=360) # hl은 host language로 en-US는 영어를 의미를 의미함, tz는 time zone으로 360은 US CST를 의미함
