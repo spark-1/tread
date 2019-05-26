@@ -1,7 +1,7 @@
 from urllib import parse
 import urllib.request
 import json
-import youtube_api_search
+from . import youtube_api_search
 
 
 class channel_info :
@@ -116,13 +116,13 @@ class channel_info :
 
 
 
+if __name__=='__main__':
+    youtube_api = youtube_api_search.Youtube_search(5)
+    data = youtube_api.search_keyword("방탄소년단")
+    channel_id = []
+    for i in range(len(data)) :
+        channel_id.append(data[i]["channel_id"])
 
-youtube_api = youtube_api_search.Youtube_search(5)
-data = youtube_api.search_keyword("방탄소년단")
-channel_id = []
-for i in range(len(data)) :
-    channel_id.append(data[i]["channel_id"])
-
-youtube_api_info = channel_info(channel_id[0])
-subscriber = youtube_api_info.get_subscriber_count()
-print(subscriber)
+    youtube_api_info = channel_info(channel_id[0])
+    subscriber = youtube_api_info.get_subscriber_count()
+    print(subscriber)
