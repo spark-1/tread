@@ -126,7 +126,9 @@ class NaverDataLab():
 
 if __name__=='__main__':
     naver = NaverDataLab()
-    # a = naver.naver_searchlist(2019, 5, 21, 23, 30, 0)
+    now = datetime.now()
+    time = now.strftime("%Y-%m-%dT%H:%M:%S")
+    keyword_rank = naver.naver_searchlist(time)
 
-    a = naver.keyword_search("핸드폰", ["갤럭시", "아이폰"], device='mo', age=['1', '2'], gender='m')
-    print(a)
+    # a = naver.keyword_search("핸드폰", ["갤럭시", "아이폰"], device='mo', age=['1', '2'], gender='m')
+    print(keyword_rank)

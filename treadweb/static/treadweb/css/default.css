@@ -307,7 +307,7 @@
 
 	.title h2
 	{
-		font-size: 2.8em;
+		font-size: 2.2em;
 	}
 
 	.title .byline
@@ -704,11 +704,6 @@
 				color: #888787;
 			}
 
-				ul.default a:hover
-				{
-					text-decoration: underline;
-				}
-
 	#two-column
 	{
 		padding-top: 3em;
@@ -866,7 +861,6 @@
 
     .list:hover
     {
-        text-decoration:underline;
         font-weight:bold;
     }
 
@@ -891,5 +885,10 @@
 
 	.list_title
 	{
-		padding-left: 8px;
+		margin-left: 8px;
+	}
+
+	.list_title:hover
+	{
+		text-decoration: underline;
 	}
