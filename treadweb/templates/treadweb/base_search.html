@@ -1,17 +1,75 @@
 {% extends "base.html" %}
 
 {% block menu %}
-    <li><a href="/tread/" accesskey="1" title="">Home</a></li>
-    <li class="current_page_item"><a href="/tread/search/" accesskey="2" title="">Search</a></li>
-    <li><a href="/tread/rank" accesskey="3" title="">Rank</a></li>
-    <li><a href="/tread/movie" accesskey="4" title="">Movie</a></li>
+    <li><a href="{% url 'treadweb:home' %}" accesskey="1" title="">Home</a></li>
+    <li class="current_page_item"><a href="{% url 'treadweb:search' %}" accesskey="2" title="">Search</a></li>
+    <li><a href="{% url 'treadweb:rank' %}" accesskey="3" title="">Rank</a></li>
+    <li><a href="{% url 'treadweb:movie' %}" accesskey="4" title="">Movie</a></li>
 {% endblock menu %}
 
 {% block body0 %}
     <div id="searchbar">
-        <form method="post">
-          <input type="text" class="textbox" placeholder="Search">
+        <form action="{% url 'treadweb:search' %}" method="post">
+            {% csrf_token %}
+          <input type="text" class="textbox" placeholder="Search" name="keyword">
           <input title="Search" value="" type="submit" class="button">
         </form>
     </div>
+    <div class="container">
+        <div class="keyword_rank">
+            {% for age, rank_list in keyword_rank.items %}
+            <div class="rank_inner">
+                <strong class="rank_title">{{ age }}</strong>
+                <ul class="rank_list">
+                    {% for word in rank_list %}
+                    <li class="list">
+                        <a href="{% url 'treadweb:search_keyword' word %}" class="list_area">
+                            <span class="num">{{ forloop.counter }}</span>
+                            <span class="list_title">{{ word }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock body0 %}
+
+{% block body1 %}
+    {% if line_result %}
+        <script type="text/javascript">
+         var line_data = {{ line_result | safe }};
+        </script>
+        <div id="banner" class="container">
+            <div id="line-chart"></div>
+        </div>
+    {% endif %}
+{% endblock body1 %}
+
+{% block body2 %}
+    	<div class="container">
+        {% if bar_result %}
+            <script type="text/javascript">
+                var bar_data = {{ bar_result | safe }};
+            </script>
+            <div id="content">
+                <div class="title">
+                    <h2>Google Trend</h2>
+                </div>
+                <div id="bar-chart"></div>
+            </div>
+        {% endif %}
+        {% if donut_result %}
+            <script type="text/javascript">
+                var donut_data = {{ donut_result | safe }};
+            </script>
+            <div id="sidebar">
+                <div class="title">
+                    <h2>남/녀 검색 비율</h2>
+                </div>
+                <div id="donut-chart"></div>
+            </div>
+        {% endif %}
+	</div>
+{% endblock body2 %}

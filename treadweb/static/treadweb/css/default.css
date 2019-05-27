@@ -67,6 +67,7 @@
 	.container
 	{
 		margin: 0px auto;
+		padding: 2em 2em;
 		width: 100%;
         display:block;
 	}
@@ -306,7 +307,7 @@
 
 	.title h2
 	{
-		font-size: 2.8em;
+		font-size: 2.2em;
 	}
 
 	.title .byline
@@ -337,6 +338,7 @@
 
 	#logo
 	{
+		float:left;
 	}
 
 	#logo h1
@@ -373,10 +375,8 @@
 
 	#menu
 	{
-		position: absolute;
-		right: 0;
-		top: 0;
 		border-left: 1px solid rgba(0,0,0,.2);
+		float:right;
 	}
 
 	#menu ul
@@ -486,14 +486,10 @@
 		padding: 1em 0em;
 	}
 
-	#page
+	.container .title h2
 	{
-        padding: 2em 0em;
-	}
-
-	#page .title h2
-	{
-		font-size: 1.60em;
+		font-size: 2em;
+		text-align: center;
 	}
 
 
@@ -646,104 +642,6 @@
 		float: right;
 	}
 
-/*********************************************************************************/
-/* Three Columns                                                                 */
-/*********************************************************************************/
-
-	#three-column
-	{
-		overflow: hidden;
-		text-align: center;
-		color: #FFF;
-	}
-
-	#three-column h2
-	{
-		margin: 1em 0em;
-		font-size: 1.5em;
-		font-weight: 700;
-	}
-
-	#three-column .icon
-	{
-		position: relative;
-		display: block;
-		margin: 0px auto 0.80em auto;
-		background: none;
-		line-height: 150px;
-		font-size: 4em;
-		width: 150px;
-		height: 150px;
-		border-radius: 100px;
-		border: 6px solid #67128F;
-		text-align: center;
-		color: #FFF;
-
-	}
-
-	#three-column #tbox1,
-	#three-column #tbox2,
-	#three-column #tbox3
-	{
-		float: left;
-		width: 320px;
-		padding: 80px 40px 80px 40px;
-	}
-
-	#three-column #tbox1
-	{
-		background: #F67C78;
-	}
-
-	#three-column #tbox1 .button
-	{
-		background: #E85D4B;
-	}
-
-	#three-column #tbox2
-	{
-		background: #79C4CA;
-	}
-
-	#three-column #tbox2 .button
-	{
-		background: #57AEAD;
-	}
-
-	#three-column #tbox3
-	{
-		background: #A8C269;
-	}
-
-	#three-column #tbox3 .button
-	{
-		background: #809944;
-	}
-
-	#three-column .title
-	{
-		text-align: center;
-	}
-
-	#three-column .title h2
-	{
-		font-size: 1.60em;
-		color: #FFF;
-	}
-
-	#three-column .title .byline
-	{
-		padding-top: 0.50em;
-		font-size: 0.90em;
-		color: #858585;
-	}
-
-	#three-column .arrow-down
-	{
-		border-top-color: #292929;
-	}
-
-
 	ul.tools
 	{
 		margin: 0;
@@ -805,11 +703,6 @@
 				text-decoration: none;
 				color: #888787;
 			}
-
-				ul.default a:hover
-				{
-					text-decoration: underline;
-				}
 
 	#two-column
 	{
@@ -934,7 +827,7 @@
 
     .keyword_rank
     {
-        width:70%;
+        width:90%;
         margin: auto;
     }
 
@@ -944,7 +837,8 @@
         margin: 5px;
         float:left;
         text-align: center;
-        border: 1px solid #337ab7;
+		text-size: 13px;
+		border: 1px solid #c3cbd7;
         padding: 3% 0px;
     }
 
@@ -962,15 +856,39 @@
     .list
     {
         padding-top: 6%;
+		text-align: left;
     }
 
     .list:hover
     {
-        text-decoration:underline;
         font-weight:bold;
     }
+
+	.list .num
+	{
+		display: inline-block;
+		width: 19px;
+		height: 19px;
+		border: 1px solid #e5e6e8;
+		background: #f2f4f8;
+		font-family: Tahoma;
+		color: #8c8e92;
+		text-align: center;
+	}
 
     .list_area
     {
         color: black;
+		padding: 5px 20px;
+		width: 212px;
     }
+
+	.list_title
+	{
+		margin-left: 8px;
+	}
+
+	.list_title:hover
+	{
+		text-decoration: underline;
+	}

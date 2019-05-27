@@ -1,15 +1,48 @@
-var chart = c3.generate({
-    bindto: '#main-chart',
+var line_chart = c3.generate({
+    bindto: '#line-chart',
     padding: {
         top: 30,
         bottom: 30,
-        left: 30,
-        right: 30
+        left: 100,
+        right: 100
     },
     data: {
-        columns: [
-            ['data1', 30, 200, 100, 400, 150, 250],
-            ['data2', 50, 20, 10, 40, 15, 25]
-        ]
+        columns: line_data,
+    }
+});
+
+var bar_chart = c3.generate({
+   bindto: '#bar-chart',
+   padding: {
+        top: 30,
+        bottom: 30,
+        left: 100,
+        right: 100
+   },
+   data: {
+       columns: bar_data,
+       type: 'bar'
+   },
+    bar: {
+       width: {
+           ratio: 0.7
+       }
+    }
+});
+
+var donut_chart = c3.generate({
+   bindto: '#donut-chart',
+   padding: {
+        top: 30,
+        bottom: 30,
+        left: 50,
+        right: 50
+   },
+   data: {
+       columns: donut_data,
+       type: 'donut'
+   },
+    donut: {
+       title: "by gender"
     }
 });
