@@ -4,7 +4,7 @@ from datetime import datetime
 
 class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래스
 
-    def __init__(self, hl = 'en_US', tz = '360', keyword = ['youtube'], timeframe = 'today 5-y', cat = 0, geo = 'KR', gprop = ''): # 생성자 기본 설정 값
+    def __init__(self, hl = 'ko', tz = '82', keyword = ['youtube'], timeframe = 'today 5-y', cat = 0, geo = 'KR', gprop = ''): # 생성자 기본 설정 값
         self.hl = hl
         self.tz = tz
         self.keyword = keyword
@@ -103,17 +103,16 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
             y = self.interest_by_region_df[key].tolist()
             y.insert(0, key)
             data.append(y)
-        print(data)
         return data
 
 """ 사용 방법 예시 """
 if __name__ == '__main__':
-    keyword = ['Pizza', 'Italian', 'Spaghetti', 'Breadsticks', 'Sausage']
+    keyword = ['피자']
     googletrend = GoogleTrend()
     googletrend.set_payload(keyword = keyword)
     #print(googletrend.interest_over_time())
-    print(googletrend.interest_by_region())
-    googletrend.interest_by_region_df_to_list()
+    googletrend.interest_by_region()
+    print(googletrend.interest_by_region_df_to_list())
 
 """
 # Get Google Hot Trends data

@@ -73,6 +73,35 @@
 	}
 
 
+	/******************************************************************************
+	home base
+	 */
+	.home-banner
+	{
+		min-height: 400px;
+		margin-top: 50px;
+		margin-right: auto;
+		margin-left: auto;
+		text-align: center;
+		padding: 3rem 1.5rem;
+	}
+
+	#home-title
+	{
+		font-size: 2.5rem;
+		font-family: inherit;
+		font-weight: 700;
+		line-height: 1.2;
+		margin-bottom:1.2rem;
+	}
+
+	#home-description
+	{
+		font-size:1.2em;
+		font-weight:300;
+	}
+
+
 /*********************************************************************************/
 /* Form Style                                                                    */
 /*********************************************************************************/
