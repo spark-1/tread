@@ -76,7 +76,7 @@ class NaverDataLab():
     # - 10: 55∼59세
     # - 11: 60세 이상
     # gender -> 검색 성별 설정 (입력 안하면 male + female 결과 출력) ex) "m" or "f"
-    def keyword_search(self, mainKeyword, keywords, device='', age='0', gender=''):
+    def keyword_search(self, mainKeyword, device='', age='0', gender=''):
         client_id = "gDb5rUUUu3cNZt3fIhxy"
         client_secret = "HWP6j_9S6w"
         url = "https://openapi.naver.com/v1/datalab/search";
@@ -84,6 +84,7 @@ class NaverDataLab():
         startTime = (parser.parse(endTime) - timedelta(days=30)).strftime("%Y-%m-%d")
 
         body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"date\",\"keywordGroups\":[{\"groupName\":\"" + mainKeyword + "\",\"keywords\":["
+        keywords = self.associative_search(mainKeyword)
         body += ("\"" + keywords[0] + "\"")
         for i in range(1, len(keywords)):
             body += (",\"" + keywords[i] + "\"")
@@ -148,7 +149,6 @@ class NaverDataLab():
 
 if __name__=='__main__':
     naver = NaverDataLab()
-    print(naver.associative_search("갤럭시"))
     # a = naver.naver_searchlist('2019-05-01T10:30:00')
-    a = naver.keyword_search("핸드폰", ["갤럭시", "아이폰"])
+    a = naver.keyword_search("휴대폰")
     print(a)
