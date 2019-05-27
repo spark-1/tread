@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_protect
 from .collector.naverDataLab import NaverDataLab
+from .collector.googleTrend import GoogleTrend
 from datetime import datetime
 import json
 # Create your views here.
@@ -26,22 +27,26 @@ def search_keyword(request, keyword):
     now = datetime.now()
     time = now.strftime("%Y-%m-%dT%H:%M:%S")
     keyword_rank = naver.naver_searchlist(time)
-    line_result = [
-            ["data1", 30, 200, 100, 400, 150, 250],
-            ["data2", 50, 20, 10, 40, 15, 25]
-    ]
-    bar_result = [
+    line_result = naver.keyword_search(keyword)
+    # keywords = []
+    # keywords.append(keyword)
+    # googletrend = GoogleTrend()
+    # googletrend.set_payload(keyword=keywords)
+    # googletrend.interest_by_region()
+    # region_result = googletrend.interest_by_region_df_to_list()
+    # region_result[0].remove('x')
+    region_result = [
         ["data1", 30, 200, 100, 400, 150, 250],
         ["data2", 50, 20, 10, 40, 15, 25]
     ]
     donut_result = [
-        ["data1", 30],
-        ["data2", 50]
+        ["male", 30],
+        ["female", 50]
     ]
     return render(request, 'treadweb/base_search.html', {
         'keyword_rank': keyword_rank,
         'line_result': json.dumps(line_result),
-        'bar_result': json.dumps(bar_result),
+        'region_result': json.dumps(region_result),
         'donut_result': json.dumps(donut_result)
     })
 

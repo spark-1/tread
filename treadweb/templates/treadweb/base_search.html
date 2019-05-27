@@ -42,6 +42,9 @@
          var line_data = {{ line_result | safe }};
         </script>
         <div id="banner" class="container">
+            <div class="title">
+                <h2>Recent Searches</h2>
+            </div>
             <div id="line-chart"></div>
         </div>
     {% endif %}
@@ -49,15 +52,15 @@
 
 {% block body2 %}
     	<div class="container">
-        {% if bar_result %}
+        {% if region_result %}
             <script type="text/javascript">
-                var bar_data = {{ bar_result | safe }};
+                var region_data = {{ region_result | safe }};
             </script>
             <div id="content">
                 <div class="title">
-                    <h2>Google Trend</h2>
+                    <h2>Trend By Region</h2>
                 </div>
-                <div id="bar-chart"></div>
+                <div id="region-chart"></div>
             </div>
         {% endif %}
         {% if donut_result %}
