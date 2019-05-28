@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래스
-
     def __init__(self, hl = 'ko', tz = '82', keyword = ['youtube'], timeframe = 'today 5-y', cat = 0, geo = 'KR', gprop = ''): # 생성자 기본 설정 값
         self.hl = hl
         self.tz = tz
@@ -100,7 +99,8 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         for key in keyword:
             y = self.interest_by_region_df[key].tolist()
         for i in range(len(region)):
-            data.append([region[i], y[i]])
+            if i in [4, 5, 6, 7, 8, 9, 10, 13]:
+                data.append([region[i], y[i]])
         return data
 
 """ 사용 방법 예시 """
