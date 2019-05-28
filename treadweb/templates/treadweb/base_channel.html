@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block menu %}
+    <li><a href="{% url 'treadweb:home' %}" accesskey="1" title="">Home</a></li>
+    <li><a href="{% url 'treadweb:search' %}" accesskey="2" title="">Search</a></li>
+    <li class="current_page_item"><a href="{% url 'treadweb:channel' %}" accesskey="3" title="">Channel</a></li>
+    <li><a href="{% url 'treadweb:video' %}" accesskey="4" title="">Video</a></li>
+{% endblock menu %}
+
+{% block body0 %}
+    <div class="tagd">
+        <div class="tagd-wrapper">
+            <div class="tagd-items">
+                <div class="tagd-item">
+                    #태그
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body0 %}
+
+{% block body1 %}
+{% endblock body1 %}
+
+{% block body2 %}
+{% endblock body2 %}

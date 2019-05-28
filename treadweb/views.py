@@ -49,8 +49,8 @@ def search_keyword(request, keyword):
         'donut_result': json.dumps(donut_result)
     })
 
-def rank_page(request):
-    return render(request, 'treadweb/base_rank.html')
+def channel_page(request):
+    return render(request, 'treadweb/base_channel.html')
 
-def movie_page(request):
-    return render(request, 'treadweb/base_movie.html')
+def video_page(request):
+    return render(request, 'treadweb/base_video.html')
