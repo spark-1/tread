@@ -85,6 +85,8 @@ class NaverDataLab():
 
         body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"date\",\"keywordGroups\":[{\"groupName\":\"" + mainKeyword + "\",\"keywords\":["
         keywords = self.associative_search(mainKeyword)
+        if keywords == []:
+            keywords.append(mainKeyword)
         body += ("\"" + keywords[0] + "\"")
         for i in range(1, len(keywords)):
             body += (",\"" + keywords[i] + "\"")
@@ -137,8 +139,11 @@ class NaverDataLab():
             if idx == -1:
                 break
             value = tmp[idx+7:idx+11]
-            if value[-1] == ',' or value[-1] == '}':
+            if value[-1] == ',' or value[-1] == '}' or value[-1] == ']':
                 value = value[0:-1]
+                if value[-1] == ',' or value[-1] == '}' or value[-1] == ']':
+                    value = value[0:-1]
+
             value = round((float(value)))
             tmp = tmp[idx:]
             d_list.append(date)
