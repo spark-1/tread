@@ -12,7 +12,7 @@
         <form action="{% url 'treadweb:search' %}" method="post">
             {% csrf_token %}
           <input type="text" class="textbox" placeholder="Search" name="keyword">
-          <input title="Search" value="" type="submit" class="button">
+            <button title="Search" type="submit" class="button"><i class="fa fa-search"></i></button>
         </form>
     </div>
     <div class="container">
