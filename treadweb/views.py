@@ -28,17 +28,16 @@ def search_keyword(request, keyword):
     time = now.strftime("%Y-%m-%dT%H:%M:%S")
     keyword_rank = naver.naver_searchlist(time)
     line_result = naver.keyword_search(keyword)
-    # keywords = []
-    # keywords.append(keyword)
-    # googletrend = GoogleTrend()
-    # googletrend.set_payload(keyword=keywords)
-    # googletrend.interest_by_region()
-    # region_result = googletrend.interest_by_region_df_to_list()
-    # region_result[0].remove('x')
-    region_result = [
-        ["data1", 30, 200, 100, 400, 150, 250],
-        ["data2", 50, 20, 10, 40, 15, 25]
-    ]
+    keywords = []
+    keywords.append(keyword)
+    googletrend = GoogleTrend(keyword=keywords)
+    googletrend.set_payload()
+    googletrend.interest_by_region()
+    region_result = googletrend.interest_by_region_df_to_list()
+    # region_result = [
+    #     ["data1", 30, 200, 100, 400, 150, 250],
+    #     ["data2", 50, 20, 10, 40, 15, 25]
+    # ]
     donut_result = [
         ["male", 30],
         ["female", 50]

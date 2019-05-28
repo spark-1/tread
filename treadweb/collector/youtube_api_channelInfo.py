@@ -1,8 +1,7 @@
 from urllib import parse
 import urllib.request
 import json
-import youtube_api_search
-
+from .youtube_api_search import Youtube_search
 
 class channel_info :
     #검색한 데이터들에서 정보를 가져오는 클래스
@@ -131,8 +130,10 @@ class channel_info :
 
 
 
-youtube_api = youtube_api_search.Youtube_search(5)
-video_list = youtube_api.search_video_by_category(10) #카테고리분류별의 비디오 리스트를 받는다
+youtube_api = Youtube_search(5)
+video_list = youtube_api.search_video_by_category(20) #카테고리분류별의 비디오 리스트를 받는다
+for video in video_list:
+    print(video)
 #비디오 리스트의 첫번째 비디오 딕셔너리를 받아오고
 print(video_list[0]["video_title"])
 print(video_list[0]["like_count"]) #publishedAt, channel_id, video_title, description, channel_title, view_count, like_count, dislike_count, comment_count 등의 키값을 넣어 밸류를 받을 수 있습니다
@@ -154,4 +155,3 @@ print(channel_data["channel_title"])
 print(channel_data["video_list"][0]["video_title"])
 print(channel_data["video_list"][0]["video_statistics"]["view_count"])
 print(channel_data["video_list"][0]["video_statistics"]["like_count"])
-#
