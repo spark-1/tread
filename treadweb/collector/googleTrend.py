@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래스
-
     def __init__(self, hl = 'ko', tz = '82', keyword = ['youtube'], timeframe = 'today 5-y', cat = 0, geo = 'KR', gprop = ''): # 생성자 기본 설정 값
         self.hl = hl
         self.tz = tz
@@ -99,8 +98,33 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         data = []
         for key in keyword:
             y = self.interest_by_region_df[key].tolist()
+        ratio = 0
+        for i in [0, 1, 2, 3, 8, 11, 12, 13, 14, 15]:
+            ratio += y[i]
+        ratio /= 100
+        tmp_val = 0
+        reg_name = ''
         for i in range(len(region)):
-            data.append([region[i], y[i]])
+            if i in [1, 2, 14, 11, 0, 13]:
+                if i == 0:
+                    tmp_val = round(y[i] / ratio)
+                    reg_name = '강원도'
+                elif i == 1:
+                    tmp_val = round((y[i] + y[i + 1]) / ratio)
+                    reg_name = '서울/경기'
+                elif i == 2:
+                    tmp_val = round((y[i] + y[i + 1]) / ratio)
+                    reg_name = '경상도'
+                elif i == 11:
+                    tmp_val = round((y[i] + y[i + 1]) / ratio)
+                    reg_name = '전라도'
+                elif i == 13:
+                    tmp_val = round(y[i] / ratio)
+                    reg_name = '제주도'
+                elif i == 14:
+                    tmp_val = round((y[i] + y[i + 1]) / ratio)
+                    reg_name = '충청도'
+                data.append([reg_name, tmp_val])
         return data
 
 """ 사용 방법 예시 """
@@ -111,6 +135,7 @@ if __name__ == '__main__':
     #print(googletrend.interest_over_time())
     googletrend.interest_by_region()
     print(googletrend.interest_by_region_df_to_list())
+
 
 """
 # Get Google Hot Trends data
