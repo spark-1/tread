@@ -96,13 +96,11 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
 
     def interest_by_region_df_to_list(self):  # interest_by_region_df의 데이터프레임 타입의 데이터를 리스트 타입으로 변환
         region = self.interest_by_region_df.index.tolist()
-        region.insert(0, 'x')
         data = []
-        data.append(region)
         for key in keyword:
             y = self.interest_by_region_df[key].tolist()
-            y.insert(0, key)
-            data.append(y)
+        for i in range(len(region)):
+            data.append([region[i], y[i]])
         return data
 
 """ 사용 방법 예시 """
