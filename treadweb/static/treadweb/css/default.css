@@ -528,9 +528,9 @@
 
 	#content
 	{
-		float: left;
-		width: 700px;
-		padding-right: 100px;
+		float:left;
+		width: 600px;
+		padding: 0em 3em;
 		border-right: 1px solid rgba(0,0,0,.1);
 	}
 
@@ -541,7 +541,8 @@
 	#sidebar
 	{
 		float: right;
-		width: 350px;
+		padding: 0em 3em;
+		width: 400px;
 	}
 
 	#sidebar h3
