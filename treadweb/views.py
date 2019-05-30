@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_protect
 from .collector.naverDataLab import NaverDataLab
 from .collector.googleTrend import GoogleTrend
 from datetime import datetime
+from .collector.youtube_api_channelInfo import ChannelInfo
 import json
 # Create your views here.
 def home_page(request):
@@ -50,7 +51,10 @@ def search_keyword(request, keyword):
     })
 
 def channel_page(request):
-    return render(request, 'treadweb/base_channel.html')
+
+    return render(request, 'treadweb/base_channel.html',
+                  {'tag_list': ChannelInfo.channel_tags}
+                  )
 
 def video_page(request):
     return render(request, 'treadweb/base_video.html')

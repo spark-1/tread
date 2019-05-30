@@ -5,7 +5,7 @@ import urllib.request
 import json
 
 
-class Youtube_search(object) :
+class YoutubeSearch(object) :
     #분류별로 데이터들을 검색할 클래스
 
     def __init__(self,size):

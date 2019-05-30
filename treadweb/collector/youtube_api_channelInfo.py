@@ -1,14 +1,15 @@
 from urllib import parse
 import urllib.request
 import json
-from .youtube_api_search import Youtube_search
+from .youtube_api_search import YoutubeSearch
 
-class channel_info :
+class ChannelInfo :
     #검색한 데이터들에서 정보를 가져오는 클래스
     channel_data = {}
+    channel_tags = [['전체', '영화', '음악', '스포츠', '펫', '게임', '여행', '브이로그'],
+                    ['코믹', '엔터테인먼트', '뉴스', '뷰티', '교육', '과학기술', '액션', '애니메이션']]
 
-    def __init__(self,channel_id) :
-
+    def __init__(self, channel_id) :
         self.channel_id = channel_id
         self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
         self.channel_data["channel_title"] = self.get_channel_title();
@@ -128,30 +129,29 @@ class channel_info :
         return video_statistics
 
 
+if __name__ == '__main__':
+    youtube_api = YoutubeSearch(5)
+    video_list = youtube_api.search_video_by_category(20) #카테고리분류별의 비디오 리스트를 받는다
+    for video in video_list:
+        print(video)
+    #비디오 리스트의 첫번째 비디오 딕셔너리를 받아오고
+    print(video_list[0]["video_title"])
+    print(video_list[0]["like_count"]) #publishedAt, channel_id, video_title, description, channel_title, view_count, like_count, dislike_count, comment_count 등의 키값을 넣어 밸류를 받을 수 있습니다
+                                     #이미 영상을 받아온 거라 이 클래스의 video 함수들을 사용할 필요가 없습니다
+    print(video_list[0]["channel_title"]) #이 비디오의 채널정보를 알고 싶을 때만 channel_info 클래스를 사용ㅎ면 됩니다.
 
 
-youtube_api = Youtube_search(5)
-video_list = youtube_api.search_video_by_category(20) #카테고리분류별의 비디오 리스트를 받는다
-for video in video_list:
-    print(video)
-#비디오 리스트의 첫번째 비디오 딕셔너리를 받아오고
-print(video_list[0]["video_title"])
-print(video_list[0]["like_count"]) #publishedAt, channel_id, video_title, description, channel_title, view_count, like_count, dislike_count, comment_count 등의 키값을 넣어 밸류를 받을 수 있습니다
-                                 #이미 영상을 받아온 거라 이 클래스의 video 함수들을 사용할 필요가 없습니다
-print(video_list[0]["channel_title"]) #이 비디오의 채널정보를 알고 싶을 때만 channel_info 클래스를 사용ㅎ면 됩니다.
+    channel_list = youtube_api.search_video_orderby_view() #그 외에 조회수 순으로 나열된 영상들의 리스트를 받으면
+    print(channel_list[0]["channel_title"])   #인덱스 다음값에 publishedAt, channel_id, video_title, description, channel_title등의 키값을 넣어서 기본적인 정보들은 받을 수 있습니다
+                                              #by_category 함수 말고는 다 statistics 정보는 딕셔너리 안에 없으므로 channel_info의 get_video_statistics 함수를 이용해야 가져올 수 있습니다
+
+    channel = youtube_api.get_video_statistics(channel_list[0]["video_id"])  #video_id를 넣어서 비디오의 statistics를 가져옵니다
+    print(channel)
 
 
-channel_list = youtube_api.search_video_orderby_view() #그 외에 조회수 순으로 나열된 영상들의 리스트를 받으면
-print(channel_list[0]["channel_title"])   #인덱스 다음값에 publishedAt, channel_id, video_title, description, channel_title등의 키값을 넣어서 기본적인 정보들은 받을 수 있습니다
-                                          #by_category 함수 말고는 다 statistics 정보는 딕셔너리 안에 없으므로 channel_info의 get_video_statistics 함수를 이용해야 가져올 수 있습니다
-
-channel = youtube_api.get_video_statistics(channel_list[0]["video_id"])  #video_id를 넣어서 비디오의 statistics를 가져옵니다
-print(channel)
-
-
-data = channel_info(channel_list[0]["channel_id"])
-channel_data = data.load_channel_data() #load_data를 사용하여 channel_data 딕셔너리를 가져오면 모든 값을 받을 수 있음
-print(channel_data["channel_title"])
-print(channel_data["video_list"][0]["video_title"])
-print(channel_data["video_list"][0]["video_statistics"]["view_count"])
-print(channel_data["video_list"][0]["video_statistics"]["like_count"])
+    data = ChannelInfo(channel_list[0]["channel_id"])
+    channel_data = data.load_channel_data() #load_data를 사용하여 channel_data 딕셔너리를 가져오면 모든 값을 받을 수 있음
+    print(channel_data["channel_title"])
+    print(channel_data["video_list"][0]["video_title"])
+    print(channel_data["video_list"][0]["video_statistics"]["view_count"])
+    print(channel_data["video_list"][0]["video_statistics"]["like_count"])

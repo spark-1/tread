@@ -9,17 +9,37 @@
 
 {% block body0 %}
     <div class="tagd">
+    {% if tag_list %}
+        {% for tags in tag_list %}
         <div class="tagd-wrapper">
             <div class="tagd-items">
-                <div class="tagd-item">
-                    #태그
-                </div>
+                {% for tag in tags %}
+                    <div class="tagd-item">#{{ tag }}</div>
+                {% endfor %}
             </div>
         </div>
+        {% endfor %}
+    {% endif %}
     </div>
 {% endblock body0 %}
 
 {% block body1 %}
+    <div class="youtube-table-wrapper">
+        <div class="youtube-table-header">
+            <div class="header-item rank">순위</div>
+            <div class="header-item">유튜버</div>
+            <div class="header-item value">구독자 수</div>
+            <div class="header-item value">조회 수</div>
+            <div class="header-item value">영상 수</div>
+        </div>
+        <div class="youtube-table-body">
+            <div class="body-item rank"><span>4</span></div>
+            <div class="body-item left"><span>준비</span></div>
+            <div class="body-item value"><span>1만</span></div>
+            <div class="body-item value"><span>1만</span></div>
+            <div class="body-item value"><span>1만</span></div>
+        </div>
+    </div>
 {% endblock body1 %}
 
 {% block body2 %}
