@@ -2,15 +2,13 @@ from urllib import parse
 import urllib.request
 import json
 
-
 # 검색한 데이터들에서 정보를 가져오는 클래스
 class ChannelInfo :
-    __developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
-    channel_tags = {'전체': 0, '영화': 1, '음악': 10, '스포츠': 17, '펫': 15, '게임': 20, '여행': 19, '브이로그': 21,
-                    '코믹': 23, '엔터테인먼트': 24, '뉴스': 25, '뷰티': 26, '교육': 27, '과학기술': 28, '액션': 32, '애니메이션': 31}
 
     def __init__(self):
-        pass
+        self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
+        self.channel_tags = {'전체': 0, '영화': 1, '음악': 10, '스포츠': 17, '펫': 15, '게임': 20, '여행': 19, '브이로그': 21,
+                        '코믹': 23, '엔터테인먼트': 24, '뉴스': 25, '뷰티': 26, '교육': 27, '과학기술': 28, '액션': 32, '애니메이션': 31}
       #channel_data로 채널 정보, video 정보들 string으로 받을 수 있음
       #channel_data["video_list"]["index"]["video_statistics"]["viewCount"]로
 

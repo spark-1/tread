@@ -12,13 +12,7 @@ class YoutubeSearch(object) :
         self.size = size; #각 검색요소당 결과로 나올 영상 개수
         self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
 
-    def get_view_count(self,channel_id):
-        data=urllib.request.urlopen("https://www.googleapis.com/youtube/v3/channels?part=statistics&id={}&key={}".format(channel_id,self.__developer_key)).read()
-        view_count = json.loads(data)["items"][0]["statistics"]["viewCount"]
-        return view_count
-        #채널의 총 조회수
-
-    def search_keyword(self,keyword):
+    def search_keyword(self, keyword):
         #검색어를 조회수순으로 검색한 영상
         word = parse.quote(keyword)
         data = urllib.request.urlopen("https://www.googleapis.com/youtube/v3/search?part=snippet&q={}&order=viewCount&maxResults={}&key={}".format(word,self.size,self.__developer_key)).read()
