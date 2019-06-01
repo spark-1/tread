@@ -1,30 +1,31 @@
 from urllib import parse
 import urllib.request
 import json
-from .youtube_api_search import YoutubeSearch
 
 class ChannelInfo :
     #검색한 데이터들에서 정보를 가져오는 클래스
-    channel_data = {}
-    channel_tags = [['전체', '영화', '음악', '스포츠', '펫', '게임', '여행', '브이로그'],
-                    ['코믹', '엔터테인먼트', '뉴스', '뷰티', '교육', '과학기술', '액션', '애니메이션']]
+    channel_tags = {'전체': 0, '영화': 1, '음악': 10, '스포츠': 17, '펫': 15, '게임': 20, '여행': 19, '브이로그': 21,
+                    '코믹': 23, '엔터테인먼트': 24, '뉴스': 25, '뷰티': 26, '교육': 27, '과학기술': 28, '액션': 32, '애니메이션': 31}
 
-    def __init__(self, channel_id) :
-        self.channel_id = channel_id
-        self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
-        self.channel_data["channel_title"] = self.get_channel_title();
-        self.channel_data["channel_publishedaAt"] = self.get_channel_publishedAt()
-        self.channel_data["channel_description"] = self.get_description()
-        self.channel_data["channel_thumbnails"] = self.get_thumbnails()
-        self.channel_data["channel_subscriber"] = self.get_subscriber_count()
-        self.channel_data["channel_view_count"] = self.get_view_count()
-        self.channel_data["video_list"] = self.get_video_data()
+    def __init__(self):
+        pass
       #channel_data로 채널 정보, video 정보들 string으로 받을 수 있음
       #channel_data["video_list"]["index"]["video_statistics"]["viewCount"]로
 
-    def load_channel_data(self):
+    def load_channel_data(self, channel_id):
         #채널 정보들이 담겨진 channel_data 딕셔너리 리턴
-        return self.channel_data
+        self.channel_id = channel_id
+        self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
+        channel_data = {}
+        channel_data["title"] = self.get_channel_title();
+        channel_data["publishedaAt"] = self.get_channel_publishedAt()
+        channel_data["description"] = self.get_description()
+        channel_data["thumbnails"] = self.get_thumbnails()
+        channel_data["subscriber"] = self.get_subscriber_count()
+        channel_data["view_count"] = self.get_view_count()
+        channel_data['video_count'] = self.get_video_count()
+
+        return channel_data
 
     def set_channel_id(self,channel_id):
         #채널 id 변경
@@ -68,14 +69,14 @@ class ChannelInfo :
             "https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id={}&key={}".format(
                 self.channel_id, self.__developer_key)).read()
         channel_view = json.loads(url)["items"][0]["statistics"]["viewCount"]
-        return channel_view
+        return self.convert_numeric_unit(channel_view)
 
     def get_subscriber_count(self):
         url = urllib.request.urlopen(
             "https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id={}&key={}".format(
                 self.channel_id, self.__developer_key)).read()
         channel_subscriber = json.loads(url)["items"][0]["statistics"]["subscriberCount"]
-        return channel_subscriber
+        return self.convert_numeric_unit(channel_subscriber)
 
     def get_video_count(self):
         #채널이 가진 비디오 수 리턴
@@ -83,7 +84,7 @@ class ChannelInfo :
             "https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id={}&key={}".format(
                 self.channel_id, self.__developer_key)).read()
         channel_video_count = json.loads(url)["items"][0]["statistics"]["videoCount"]
-        return channel_video_count
+        return self.convert_numeric_unit(channel_video_count)
 
     def get_playlists(self):
         #채널이 가진 플레이리스트 리턴
@@ -102,16 +103,17 @@ class ChannelInfo :
         data = json.loads(url)["items"]
         video_list : url = []
 
-        for i in range(5) :
-            video_statiscs = self.get_video_statistics(data[i]["id"]["videoId"])
-            video_list.append({
-                'publishedAt' : data[i]["snippet"]["publishedAt"],
-                'video_id' : data[i]["id"]["videoId"],
-                'video_title' : data[i]["snippet"]["title"],
-                'video_description' : data[i]["snippet"]["description"],
-                'video_thumbnails' : data[i]["snippet"]["thumbnails"],
-                'video_statistics' : video_statiscs
-            })
+        for i in range(len(data)) :
+            if data[i]["id"].get("videoId"):
+                video_statiscs = self.get_video_statistics(data[i]["id"]["videoId"])
+                video_list.append({
+                    'publishedAt' : data[i]["snippet"]["publishedAt"],
+                    'video_id' : data[i]["id"]["videoId"],
+                    'video_title' : data[i]["snippet"]["title"],
+                    'video_description' : data[i]["snippet"]["description"],
+                    'video_thumbnails' : data[i]["snippet"]["thumbnails"],
+                    'video_statistics' : video_statiscs
+                })
 
         return video_list
 
@@ -128,30 +130,13 @@ class ChannelInfo :
 
         return video_statistics
 
-
-if __name__ == '__main__':
-    youtube_api = YoutubeSearch(5)
-    video_list = youtube_api.search_video_by_category(20) #카테고리분류별의 비디오 리스트를 받는다
-    for video in video_list:
-        print(video)
-    #비디오 리스트의 첫번째 비디오 딕셔너리를 받아오고
-    print(video_list[0]["video_title"])
-    print(video_list[0]["like_count"]) #publishedAt, channel_id, video_title, description, channel_title, view_count, like_count, dislike_count, comment_count 등의 키값을 넣어 밸류를 받을 수 있습니다
-                                     #이미 영상을 받아온 거라 이 클래스의 video 함수들을 사용할 필요가 없습니다
-    print(video_list[0]["channel_title"]) #이 비디오의 채널정보를 알고 싶을 때만 channel_info 클래스를 사용ㅎ면 됩니다.
-
-
-    channel_list = youtube_api.search_video_orderby_view() #그 외에 조회수 순으로 나열된 영상들의 리스트를 받으면
-    print(channel_list[0]["channel_title"])   #인덱스 다음값에 publishedAt, channel_id, video_title, description, channel_title등의 키값을 넣어서 기본적인 정보들은 받을 수 있습니다
-                                              #by_category 함수 말고는 다 statistics 정보는 딕셔너리 안에 없으므로 channel_info의 get_video_statistics 함수를 이용해야 가져올 수 있습니다
-
-    channel = youtube_api.get_video_statistics(channel_list[0]["video_id"])  #video_id를 넣어서 비디오의 statistics를 가져옵니다
-    print(channel)
-
-
-    data = ChannelInfo(channel_list[0]["channel_id"])
-    channel_data = data.load_channel_data() #load_data를 사용하여 channel_data 딕셔너리를 가져오면 모든 값을 받을 수 있음
-    print(channel_data["channel_title"])
-    print(channel_data["video_list"][0]["video_title"])
-    print(channel_data["video_list"][0]["video_statistics"]["view_count"])
-    print(channel_data["video_list"][0]["video_statistics"]["like_count"])
+    def convert_numeric_unit(self, number):
+        num = int(number)
+        if num >= 100000000:
+            return str(num // 100000000) + "억"
+        elif num >= 1000000:
+            return str(num // 1000000) + "백만"
+        elif num >= 10000:
+            return str(num // 10000) + "만"
+        else:
+            return str(num);

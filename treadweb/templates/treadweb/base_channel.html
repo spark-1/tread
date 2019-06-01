@@ -14,7 +14,7 @@
         <div class="tagd-wrapper">
             <div class="tagd-items">
                 {% for tag in tags %}
-                    <div class="tagd-item">#{{ tag }}</div>
+                    <div class="tagd-item"><a href="{% url 'treadweb:channel_tag' tag %}">#{{ tag }}</a></div>
                 {% endfor %}
             </div>
         </div>
@@ -32,13 +32,19 @@
             <div class="header-item value">조회 수</div>
             <div class="header-item value">영상 수</div>
         </div>
+        {% if channel_list %}
+            {% for channel in channel_list %}
         <div class="youtube-table-body">
-            <div class="body-item rank"><span>4</span></div>
-            <div class="body-item left"><span>준비</span></div>
-            <div class="body-item value"><span>1만</span></div>
-            <div class="body-item value"><span>1만</span></div>
-            <div class="body-item value"><span>1만</span></div>
+            <div class="body-item rank"><span>{{ forloop.counter }}</span></div>
+            <div class="body-item left">
+                <span><img src="{{ channel.thumbnails }}"/></span>
+                <span>{{ channel.title }}</span></div>
+            <div class="body-item value"><span>{{ channel.subscriber }}</span></div>
+            <div class="body-item value"><span>{{ channel.view_count }}</span></div>
+            <div class="body-item value"><span>{{ channel.video_count }}</span></div>
         </div>
+            {% endfor %}
+       {% endif %}
     </div>
 {% endblock body1 %}
 

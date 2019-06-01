@@ -851,6 +851,11 @@
     cursor: pointer;
 }
 
+.tagd-item a
+{
+	color: #000000;
+}
+
 /**
 	youtube table
  */
