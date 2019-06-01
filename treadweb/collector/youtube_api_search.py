@@ -5,10 +5,10 @@ import urllib.request
 import json
 
 
-class Youtube_search(object) :
+class YoutubeSearch(object) :
     #분류별로 데이터들을 검색할 클래스
 
-    def __init__(self,size):
+    def __init__(self, size=10):
         self.size = size; #각 검색요소당 결과로 나올 영상 개수
         self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
 
@@ -45,16 +45,16 @@ class Youtube_search(object) :
         response = list
         v_data: data = []
         for i in range(len(response)):
-
-            v_data.append({
-                'video_id': response[i]["id"]["videoId"],
-                'publishedAt': response[i]["snippet"]["publishedAt"],
-                'channel_id': response[i]["snippet"]["channelId"],
-                'video_title': response[i]["snippet"]["title"],
-                'description': response[i]["snippet"]["description"],
-                'channel_title': response[i]["snippet"]["channelTitle"],
-                'video_thumbnail': response[i]["snippet"]["thumbnails"]["default"]["url"]
-            })
+            if response[i]["id"].get("videoId"):
+                v_data.append({
+                    'video_id': response[i]["id"]["videoId"],
+                    'publishedAt': response[i]["snippet"]["publishedAt"],
+                    'channel_id': response[i]["snippet"]["channelId"],
+                    'video_title': response[i]["snippet"]["title"],
+                    'description': response[i]["snippet"]["description"],
+                    'channel_title': response[i]["snippet"]["channelTitle"],
+                    'video_thumbnail': response[i]["snippet"]["thumbnails"]["default"]["url"]
+                })
         return v_data
 
     def search_channel_orderby_view(self):

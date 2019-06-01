@@ -4,6 +4,8 @@ from django.views.decorators.csrf import csrf_protect
 from .collector.naverDataLab import NaverDataLab
 from .collector.googleTrend import GoogleTrend
 from datetime import datetime
+from .collector.youtube_api_channelInfo import ChannelInfo
+from .collector.youtube_api_search import YoutubeSearch
 import json
 # Create your views here.
 def home_page(request):
@@ -28,17 +30,16 @@ def search_keyword(request, keyword):
     time = now.strftime("%Y-%m-%dT%H:%M:%S")
     keyword_rank = naver.naver_searchlist(time)
     line_result = naver.keyword_search(keyword)
-    # keywords = []
-    # keywords.append(keyword)
-    # googletrend = GoogleTrend()
-    # googletrend.set_payload(keyword=keywords)
-    # googletrend.interest_by_region()
-    # region_result = googletrend.interest_by_region_df_to_list()
-    # region_result[0].remove('x')
-    region_result = [
-        ["data1", 30, 200, 100, 400, 150, 250],
-        ["data2", 50, 20, 10, 40, 15, 25]
-    ]
+    keywords = []
+    keywords.append(keyword)
+    googletrend = GoogleTrend(keyword=keywords)
+    googletrend.set_payload()
+    googletrend.interest_by_region()
+    region_result = googletrend.interest_by_region_df_to_list()
+    # region_result = [
+    #     ["data1", 30, 200, 100, 400, 150, 250],
+    #     ["data2", 50, 20, 10, 40, 15, 25]
+    # ]
     donut_result = [
         ["male", 30],
         ["female", 50]
@@ -50,8 +51,28 @@ def search_keyword(request, keyword):
         'donut_result': json.dumps(donut_result)
     })
 
-def rank_page(request):
-    return render(request, 'treadweb/base_rank.html')
+def channel_page(request):
+    tag_keys = list(ChannelInfo.channel_tags.keys())
+    n = len(tag_keys) // 2
+    tag_list = [tag_keys[i * n:(i+1) * n] for i in range((len(tag_keys) + n - 1) // n)]
+    channels = YoutubeSearch().search_channel_orderby_view();
+    channel_list = []
+    channel_info = ChannelInfo()
+    for channel in channels:
+        channel_data = channel_info.load_channel_data(channel["channel_id"])
+        channel_list.append(channel_data)
 
-def movie_page(request):
-    return render(request, 'treadweb/base_movie.html')
+    return render(request, 'treadweb/base_channel.html',
+                  {
+                      'tag_list': tag_list,
+                      'channel_list': channel_list
+                    }
+                  )
+
+def channel_tag(request):
+
+    return render(request, 'treadweb/base_channel.html',
+                  {})
+
+def video_page(request):
+    return render(request, 'treadweb/base_video.html')
