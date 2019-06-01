@@ -59,7 +59,7 @@ def channel_page(request):
     channel_list = []
     channel_info = ChannelInfo()
     for channel in channels:
-        channel_data = channel_info.load_channel_data(channel["channel_id"])
+        channel_data = channel_info.get_channel_data(channel["channel_id"])
         channel_list.append(channel_data)
 
     return render(request, 'treadweb/base_channel.html',

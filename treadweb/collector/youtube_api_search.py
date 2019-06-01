@@ -8,7 +8,7 @@ import json
 class YoutubeSearch(object) :
     #분류별로 데이터들을 검색할 클래스
 
-    def __init__(self, size=10):
+    def __init__(self, size=20):
         self.size = size; #각 검색요소당 결과로 나올 영상 개수
         self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
 
