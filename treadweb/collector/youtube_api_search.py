@@ -97,7 +97,7 @@ class YoutubeSearch(object) :
             44 : Trailers'''
         #카테고리안에서 mostpopular한 영상들 리턴
         data = urllib.request.urlopen(
-            "https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&maxResults={}&videoCategoryId={}&key={}".format(self.size,category_id,self.__developer_key)).read()
+            "https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults={}&videoCategoryId={}&key={}".format(self.size,category_id,self.__developer_key)).read()
         list = json.loads(data)["items"]
         response = list
         v_data : data = []
