@@ -6,3 +6,50 @@
     <li><a href="{% url 'treadweb:channel' %}" accesskey="3" title="">Channel</a></li>
     <li class="current_page_item"><a href="{% url 'treadweb:video' %}" accesskey="4" title="">Video</a></li>
 {% endblock menu %}
+
+{% block body0 %}
+    <div class="tagd">
+    {% if tag_list %}
+        {% for tags in tag_list %}
+        <div class="tagd-wrapper">
+            <div class="tagd-items">
+                {% for tag in tags %}
+                    <div class="tagd-item"><a href="{% url 'treadweb:video_tag' tag %}">#{{ tag }}</a></div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+{% endblock body0 %}
+
+{% block body1 %}
+    <div class="youtube-table-wrapper">
+        <div class="youtube-table-header">
+            <div class="header-item">인기 영상</div>
+        </div>
+        {% if video_list %}
+        <div class="contents">
+        {% for video in video_list %}
+            <div class="item-section">
+                <div class="video-renderer">
+                    <div class="video-item rank"><span>{{ forloop.counter }}</span></div>
+                    <div class="video-item video-thumbnails"><span><img src="{{ video.video_thumbnail }}"/></span></div>
+                    <div class="video-item video-text-wrapper">
+                        <div class="title-wrapper">
+                            <p>{{ video.video_title }}</p>
+                        </div>
+                        <div class="byline-separated">
+                            <p>{{ video.channel_title }} • 조회수 {{ video.view_count }} • {{ video.publishedAt }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+{% endblock body1 %}
+
+{% block body2 %}
+{% endblock body2 %}

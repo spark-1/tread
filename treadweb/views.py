@@ -52,14 +52,15 @@ def search_keyword(request, keyword):
     })
 
 def channel_page(request):
-    tag_keys = list(ChannelInfo.channel_tags.keys())
+    youtube = YoutubeSearch()
+    tag_keys = list(youtube.tags.keys())
     n = len(tag_keys) // 2
-    tag_list = [tag_keys[i * n:(i+1) * n] for i in range((len(tag_keys) + n - 1) // n)]
-    channels = YoutubeSearch().search_channel_orderby_view();
+    tag_list = [tag_keys[:n], tag_keys[n + 1:]]
+    channels = youtube.search_channel_orderby_view();
     channel_list = []
     channel_info = ChannelInfo()
     for channel in channels:
-        channel_data = channel_info.load_channel_data(channel["channel_id"])
+        channel_data = channel_info.get_channel_data(channel["channel_id"])
         channel_list.append(channel_data)
 
     return render(request, 'treadweb/base_channel.html',
@@ -69,10 +70,48 @@ def channel_page(request):
                     }
                   )
 
-def channel_tag(request):
+def channel_tag(request, tag):
+    youtube = YoutubeSearch()
+    tag_keys = list(youtube.tags.keys())
+    n = len(tag_keys) // 2
+    tag_list = [tag_keys[:n], tag_keys[n + 1:]]
 
+    channels = youtube.search_channel_orderby_view();
+    channel_list = []
+    channel_info = ChannelInfo()
+    for channel in channels:
+        channel_data = channel_info.get_channel_data(channel["channel_id"])
+        channel_list.append(channel_data)
     return render(request, 'treadweb/base_channel.html',
-                  {})
+                  {
+                      'tag_list': tag_list,
+                      'channel_list': channel_list
+                  })
 
 def video_page(request):
-    return render(request, 'treadweb/base_video.html')
+    youtube = YoutubeSearch()
+    tag_keys = list(youtube.tags.keys())
+    n = len(tag_keys) // 2
+    tag_list = [tag_keys[:n], tag_keys[n + 1:]]
+    video_list = youtube.search_video_by_category(0)
+    return render(request, 'treadweb/base_video.html',
+                  {
+                      'tag_list': tag_list,
+                      'video_list': video_list
+                    }
+                  )
+
+
+def video_tag(request, tag):
+    youtube = YoutubeSearch()
+    tag_keys = list(youtube.tags.keys())
+    n = len(tag_keys) // 2
+    tag_list = [tag_keys[:n], tag_keys[n + 1:]]
+    tag_id = youtube.tags.get(tag)
+    video_list = youtube.search_video_by_category(tag_id)
+    return render(request, 'treadweb/base_video.html',
+                  {
+                      'tag_list': tag_list,
+                      'video_list': video_list
+                  }
+                  )
