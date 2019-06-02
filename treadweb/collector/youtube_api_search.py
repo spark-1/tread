@@ -11,8 +11,8 @@ class YoutubeSearch :
     def __init__(self, size=20):
         self.size = size; #각 검색요소당 결과로 나올 영상 개수
         self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
-        self.tags = {'전체': 0, '영화': 1, '음악': 10, '스포츠': 17, '펫': 15, '게임': 20, '여행': 19, '브이로그': 21,
-                     '코믹': 23, '엔터테인먼트': 24, '뉴스': 25, '뷰티': 26, '교육': 27, '과학기술': 28, '액션': 32, '애니메이션': 31}
+        self.tags = {'전체': 0, '영화': 1, '음악': 10, 'Car': 2, '펫': 15, '먹방': 26, '스포츠': 17, '게임': 20,
+                     '코믹': 23,  '과학기술': 28, '엔터테인먼트': 24}
 
     def search_keyword(self, keyword):
         #검색어를 조회수순으로 검색한 영상

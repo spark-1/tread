@@ -841,6 +841,7 @@
 
 .tagd-item
 {
+	width: 225px;
 	position: relative;
     text-align: center;
     flex-grow: 1;
