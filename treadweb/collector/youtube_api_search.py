@@ -104,8 +104,9 @@ class YoutubeSearch :
             "https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults={}&videoCategoryId={}&key={}".format(self.size,category_id,self.__developer_key)).read()
         response = json.loads(data)["items"]
         v_data : data = []
-        for i in range(len(response)) :
-             v_data.append({
+        for i in range(len(response)):
+            print(response[i]["snippet"]["thumbnails"]["default"])
+            v_data.append({
                 'video_id' : response[i]["id"],
                 'publishedAt' : response[i]["snippet"].get("publishedAt"),
                 'channel_id' : response[i]["snippet"].get("channelId"),
@@ -134,9 +135,3 @@ class YoutubeSearch :
         video_statistics["commnet_count"] = data[0]["statistics"]["commentCount"]
 
         return video_statistics
-
-
-
-
-#youtube.set_channel_id('UCT-_4GqC-yLY1xtTHhwY0hA')
-#

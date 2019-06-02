@@ -24,7 +24,7 @@
 {% endblock body0 %}
 
 {% block body1 %}
-    <div class="video-container">
+    <div class="youtube-table-wrapper">
         <div class="youtube-table-header">
             <div class="header-item">인기 영상</div>
         </div>
@@ -33,14 +33,14 @@
         {% for video in video_list %}
             <div class="item-section">
                 <div class="video-renderer">
-                    <div class="body-item rank"><span>{{ forloop.counter }}</span></div>
-                    <div class="video-thumbnails"><span><img src="{{ video.video_thumbnail }}"/></span></div>
-                    <div class="video-text-wrapper">
+                    <div class="video-item rank"><span>{{ forloop.counter }}</span></div>
+                    <div class="video-item video-thumbnails"><span><img src="{{ video.video_thumbnail }}"/></span></div>
+                    <div class="video-item video-text-wrapper">
                         <div class="title-wrapper">
-                            <h3>{{ video.video_title }}</h3>
+                            <p>{{ video.video_title }}</p>
                         </div>
                         <div class="byline-separated">
-
+                            <p>{{ video.channel_title }} • 조회수 {{ video.view_count }} • {{ video.publishedAt }}</p>
                         </div>
                     </div>
                 </div>
