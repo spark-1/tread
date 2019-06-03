@@ -159,7 +159,7 @@ class NaverDataLab():
     # keyword 에는 검색어 입력, filename은 저장할 파일 이름 입력
     # size를 800 x 800 으로 설정해도 실제로 입력한 크기보다는 약간 작게 생성됨
     #
-    def draw_cloud(self, keyword, filename, fontname='korean', size=(800, 800)):
+    def draw_cloud(self, keyword, filename, fontname='Korean', size=(800, 800)):
         keywords = self.associative_search(keyword)
         length = len(keywords)
         if length != 0:
@@ -175,7 +175,7 @@ class NaverDataLab():
         count = Counter(nouns)
         tag2 = count.most_common(100)
         taglist = pytagcloud.make_tags(tag2, maxsize=100)
-        pytagcloud.create_tag_image(taglist, filename, layout=LAYOUT_MIX, size=size, fontname=fontname, rectangular=False)
+        pytagcloud.create_tag_image(taglist, filename, layout=LAYOUT_HORIZONTAL, size=size, fontname=fontname, rectangular=False)
         webbrowser.open(filename)
 
 if __name__=='__main__':
@@ -184,4 +184,4 @@ if __name__=='__main__':
     # a = naver.keyword_search("휴대폰")
     # print(a)
     # naver.draw_cloud('갤럭시', 'wc.png')
-    naver.draw_cloud('갤럭시', 'wc.png')
+    naver.draw_cloud('갤럭시', '../static/treadweb/img/word_cloud.png')
