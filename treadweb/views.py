@@ -51,7 +51,7 @@ def search_keyword(request, keyword):
     })
 
 def channel_page(request):
-    youtube = YoutubeSearch()
+    youtube = YoutubeSearch(50)
     tag_keys = list(youtube.tags.keys())
     n = len(tag_keys) // 2
     tag_list = [tag_keys[:n], tag_keys[n + 1:]]
