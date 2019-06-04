@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>트리드 - 트렌드를 읽다</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+    {% load staticfiles %}
+    <!-- JavaScript -->
+    <script src="https://unpkg.com/vue@2.5.2"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+
+    <!-- CSS -->
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.18/c3.min.css">
+    <link href="{% static 'treadweb/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'treadweb/css/default.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header">
+		<div id="logo">
+			<h1><a href="{% url 'treadweb:home' %}"><img src="{% static 'treadweb/img/tread_logo.jpg' %}" width="160" height="80" alt="logo" /></a></h1>
+		</div>
+		<div id="menu">
+			<ul>
+                {% block menu %}
+                    <li class="current_page_item"><a href="{% url 'treadweb:home' %}" accesskey="1" title="">Home</a></li>
+                    <li><a href="{% url 'treadweb:search' %}" accesskey="2" title="">Search</a></li>
+                    <li><a href="{% url 'treadweb:channel' %}" accesskey="3" title="">Channel</a></li>
+                    <li><a href="{% url 'treadweb:video' %}" accesskey="4" title="">Video</a></li>
+                {% endblock menu %}
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="page-wrapper">
+    {% block body0 %}
+    <div class="home-banner">
+        <div id="home-title">TREAD</div>
+        <div id="home-description">
+            <p>You get the latest trends from us</p>
+            <p>and give you more information about the keywords you want.</p>
+        </div>
+    </div>
+    {% endblock body0 %}
+    {% block body1 %}
+    {% endblock body1%}
+    {% block body2 %}
+    {% endblock body2 %}
+    {% block body3 %}
+    {% endblock body3 %}
+</div>
+
+<div id="copyright" class="container">
+	<p>&copy; All rights reserved. | Design by TREAD.</p>
+</div>
+    <script src="{% static 'treadweb/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'treadweb/js/chart.js' %}"></script>
+    <script src="{% static 'treadweb/js/rank.js' %}"></script>
+
+</body>
+</html>

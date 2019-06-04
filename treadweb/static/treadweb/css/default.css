@@ -64,14 +64,6 @@
         text-align: center;
     }
 
-	.container
-	{
-		margin: 0px auto;
-		padding: 2em 2em;
-		width: 100%;
-        display:block;
-	}
-
 
 	/******************************************************************************
 	home base
@@ -477,35 +469,6 @@
 	}
 
 /*********************************************************************************/
-/* Welcome                                                                       */
-/*********************************************************************************/
-
-	#welcome
-	{
-		overflow: hidden;
-		width: 1000px;
-		padding: 8em 100px 0em 100px;
-		text-align: center;
-		color: rgba(0,0,0,0.6);
-	}
-
-	#welcome .content
-	{
-		padding: 0em 8em;
-	}
-
-	#welcome .title h2
-	{
-		color: rgba(0,0,0,0.8);
-	}
-
-	#welcome a,
-	#welcome strong
-	{
-		color: rgba(0,0,0,0.8);
-	}
-
-/*********************************************************************************/
 /* Page                                                                          */
 /*********************************************************************************/
 
@@ -527,12 +490,18 @@
 /* Content                                                                       */
 /*********************************************************************************/
 
-	#content
+    #right-border
+    {
+        border-right: 1px solid rgba(0,0,0,.1);
+    }
+
+	.chart-content
 	{
-		float:left;
-		width: 600px;
-		padding: 0em 3em;
-		border-right: 1px solid rgba(0,0,0,.1);
+        width: 45%;
+        margin: 5px;
+        float: left;
+        text-align: center;
+        padding: 3% 0px;
 	}
 
 /*********************************************************************************/

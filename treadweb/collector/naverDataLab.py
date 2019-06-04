@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from dateutil import parser
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+from django.contrib.staticfiles.templatetags.staticfiles import static
 import json
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
@@ -205,7 +206,7 @@ class NaverDataLab():
         ret = [d_list, v_list]
         return ret
 
-    def draw_cloud(self, keyword, filename, width=1000, height=600):
+    def draw_cloud(self, keyword, width=1000, height=600):
         list = self.associative_search(keyword)
         text = ''
         for i in range(len(list)):
@@ -219,18 +220,14 @@ class NaverDataLab():
             text += keyword
 
         # font_path
-        wordcloud = WordCloud(font_path='./SeoulNamsan.ttf', background_color='white', width=width, height=height, max_font_size=1000).generate(text)
+        wordcloud = WordCloud(font_path='SeoulNamsan.ttf',
+                              background_color='white', width=width, height=height, max_font_size=1000)\
+            .generate(text)
         fig, axes = plt.subplots(ncols=1, nrows=1)
         plt.imshow(wordcloud, interpolation='bilinear')
         plt.axis("off")
-        # plt.show()
-        fig.savefig(filename, format='png')
+        fig.savefig('treadweb/static/treadweb/img/wordcloud.png', format='png')
 
 if __name__=='__main__':
     naver = NaverDataLab()
-    # a = naver.naver_searchlist('2019-05-01T10:30:00')
-    # a = naver.keyword_search("휴대폰")
-    # a = naver.getNewsTitle('네이버')
-    # print(a)
-    # naver.draw_cloud('갤럭시', 'wc.png')
-    naver.draw_cloud('구글', 'wc.png')
+    naver.draw_cloud('구글')
