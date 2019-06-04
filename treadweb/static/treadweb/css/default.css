@@ -1,9 +1,9 @@
-	html, body
+html, body
 	{
 		height: 100%;
 	}
 
-	body
+		body
 	{
 		margin: 0px auto;
 		padding: 0px;
@@ -12,6 +12,7 @@
 		font-size: 12pt;
 		color: #555;
 	}
+
 
 
 	h1, h2, h3
@@ -63,15 +64,7 @@
     th {
         text-align: center;
     }
-/*
-	.container
-	{
-		margin: 0px auto;
-		padding: 2em 2em;
-		width: 100%;
-        display:block;
-	}
-*/
+
 
 	.container
 	{
@@ -90,6 +83,7 @@
 		margin-right: -15px;
 		margin-left: -15px;
 	}
+
 
 	/******************************************************************************
 	home base
@@ -388,7 +382,6 @@
 	  font-size: 22px;
 	  letter-spacing: 1px;
 	}
-
 /*********************************************************************************/
 /* Logo                                                                          */
 /*********************************************************************************/
@@ -407,11 +400,8 @@
 
 	#logo a
 	{
-		padding-top: 30px;
-		font-size: 2.5em;
-		font-weight: 600;
 		text-decoration: none;
-		color: #dd0012;
+		color: #F67C78;
 	}
 
 	#logo span
@@ -507,39 +497,10 @@
 	}
 
 /*********************************************************************************/
-/* Welcome                                                                       */
-/*********************************************************************************/
-
-	#welcome
-	{
-		overflow: hidden;
-		width: 1000px;
-		padding: 8em 100px 0em 100px;
-		text-align: center;
-		color: rgba(0,0,0,0.6);
-	}
-
-	#welcome .content
-	{
-		padding: 0em 8em;
-	}
-
-	#welcome .title h2
-	{
-		color: rgba(0,0,0,0.8);
-	}
-
-	#welcome a,
-	#welcome strong
-	{
-		color: rgba(0,0,0,0.8);
-	}
-
-/*********************************************************************************/
 /* Page                                                                          */
 /*********************************************************************************/
 
-	#page-wrapper
+		#page-wrapper
 	{
 	  background: url(../img/hero-bg-03.jpg) no-repeat center top;
 	  margin-top: -10px;
@@ -583,6 +544,7 @@
 	}
 
 
+
 /******************SECTIONS********************/
 
 .w {
@@ -599,17 +561,22 @@
 }
 
 
-
 /*********************************************************************************/
 /* Content                                                                       */
 /*********************************************************************************/
 
-	#content
+    #right-border
+    {
+        border-right: 1px solid rgba(0,0,0,.1);
+    }
+
+	.chart-content
 	{
-		float:left;
-		width: 600px;
-		padding: 0em 3em;
-		border-right: 1px solid rgba(0,0,0,.1);
+        width: 45%;
+        margin: 5px;
+        float: left;
+        text-align: center;
+        padding: 3% 0px;
 	}
 
 /*********************************************************************************/
@@ -640,7 +607,6 @@
 
 	#footer
 	{
-
 		text-align: center;
 	}
 
@@ -674,6 +640,7 @@
 		text-decoration: none;
 		color: rgba(255,255,255,0.8);
 	}
+
 
 /*********************************************************************************/
 /* Newsletter                                                                    */
@@ -1022,11 +989,6 @@
 		text-align: left;
 	}
 
-	.contents .item-section
-	{
-		display: flex;
-	}
-
 	.video-item
 	{
 		padding: 12px 0;
@@ -1035,7 +997,7 @@
 
 	.video-renderer
 	{
-		margin-top: 42px;
+		margin: 42px 0 auto;
 		display: flex;
 	}
 
@@ -1047,10 +1009,10 @@
 
 	.video-thumbnails
 	{
-		flex-grow: 2;
 		width: 120px;
 		height: 90px;
 		margin-right: 24px;
+        cursor: pointer;
 	}
 
 	.video-text-wrapper
@@ -1079,4 +1041,32 @@
 		text-overflow: ellipsis;
 		white-space: normal;
 		display: -webkit-box;
+        cursor: pointer;
 	}
+
+    .video-wrapper
+    {
+        margin: 30px 10% auto;
+        display: flex;
+    }
+
+    .video
+    {
+        flex-grow: 1;
+        margin-right: 42px;
+    }
+
+    .video-description
+    {
+        flex-grow: 1;
+        font-size: 14px;
+    }
+
+    /**
+    word cloud
+     */
+    #wordcloud>img
+    {
+        margin: auto;
+        padding: 0em 3em;
+    }
