@@ -7,6 +7,8 @@ urlpatterns = [
     re_path(r'^$', views.home_page, name='home'),
     re_path(r'^search/$', views.search_page, name='search'),
     path('search/<str:keyword>', views.search_keyword, name='search_keyword'),
-    path('rank/', views.rank_page, name='rank'),
-    path('movie/', views.movie_page, name='movie'),
+    path('channel/', views.channel_page, name='channel'),
+    path('channel/<str:tag>', views.channel_tag, name='channel_tag'),
+    path('video/', views.video_page, name='video'),
+    path('video/<str:tag>', views.video_tag, name='video_tag'),
 ]

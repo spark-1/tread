@@ -5,6 +5,10 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from dateutil import parser
 import json
+import pytagcloud
+from pytagcloud import LAYOUT_HORIZONTAL, LAYOUTS, LAYOUT_MIX, LAYOUT_VERTICAL, LAYOUT_MOST_HORIZONTAL, LAYOUT_MOST_VERTICAL
+import webbrowser
+from collections import Counter
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
 
@@ -152,8 +156,29 @@ class NaverDataLab():
         ret = [d_list, v_list]
         return ret
 
+    # keyword 에는 검색어 입력, filename은 저장할 파일 이름 입력
+    # size를 800 x 800 으로 설정해도 실제로 입력한 크기보다는 약간 작게 생성됨
+    #
+    def draw_cloud(self, keyword, filename, fontname='Korean', size=(1200, 900)):
+        keywords = self.associative_search(keyword)
+        length = len(keywords)
+        if length != 0:
+            mul_val = 10 // length
+        ratio = [20, 17, 15, 11, 11, 8, 6, 4, 4, 2, 1]
+        nouns = list()
+        if length != 0:
+            for i in range(length):
+                nouns.extend([keywords[i] for t in range(ratio[i * mul_val])])
+        else:
+            nouns.extend(keyword for t in range(20))
+        nouns = [t for t in nouns]
+        count = Counter(nouns)
+        tag2 = count.most_common(100)
+        taglist = pytagcloud.make_tags(tag2, maxsize=100)
+        pytagcloud.create_tag_image(taglist, filename, layout=LAYOUT_HORIZONTAL, size=size,\
+                                    fontname=fontname, rectangular=True)
+        webbrowser.open(filename)
+
 if __name__=='__main__':
     naver = NaverDataLab()
-    # a = naver.naver_searchlist('2019-05-01T10:30:00')
-    a = naver.keyword_search("휴대폰")
-    print(a)
+    naver.draw_cloud('갤럭시', '../static/treadweb/img/word_cloud.png')

@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래스
-    def __init__(self, hl = 'ko', tz = 82, keyword = ['youtube'], timeframe = 'today 1-m', cat = 0, geo = 'KR', gprop = ''): # 생성자 기본 설정 값
+
+    def __init__(self, keyword, hl = 'ko', tz = '82', timeframe = 'today 5-y', cat = 0, geo = 'KR', gprop = ''): # 생성자 기본 설정 값
         self.hl = hl
         self.tz = tz
         self.keyword = keyword
@@ -30,8 +31,8 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         self.update_pytrend()
         self.update_payload()
 
-    def set_payload(self, keyword = [None], timeframe = 'None', cat = -1, geo = 'None', gprop = 'None'): # 키워드리스트, 타임프레임, 카테고리, 지역, 구글 프로퍼티
-        if keyword != [None] :
+    def set_payload(self, keyword = None, timeframe = 'None', cat = -1, geo = 'None', gprop = 'None'): # 키워드리스트, 타임프레임, 카테고리, 지역, 구글 프로퍼티
+        if keyword != None :
             self.keyword = keyword
         if timeframe != 'None': # ex) 'all', 'today 5-y', 'today 1,2,3-m', 'now 1,7-d', 'now 1,4-H', '2018-05-20 2019-01-20'
             self.timeframe = timeframe
@@ -94,7 +95,7 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         date.insert(0, 'x')
         data = []
         data.append(date)
-        for key in keyword:
+        for key in self.keyword:
             y = self.interest_over_time_df[key].tolist()
             y.insert(0, key)
             data.append(y)
@@ -103,7 +104,7 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
     def interest_by_region_df_to_list(self):  # interest_by_region_df의 데이터프레임 타입의 데이터를 리스트 타입으로 변환
         region = self.interest_by_region_df.index.tolist()
         data = []
-        for key in keyword:
+        for key in self.keyword:
             y = self.interest_by_region_df[key].tolist()
         ratio = 0
         for i in [0, 1, 2, 3, 8, 11, 12, 13, 14, 15]:
@@ -111,27 +112,28 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         ratio /= 100
         tmp_val = 0
         reg_name = ''
-        for i in range(len(region)):
-            if i in [1, 2, 14, 11, 0, 13]:
-                if i == 0:
-                    tmp_val = round(y[i] / ratio)
-                    reg_name = '강원도'
-                elif i == 1:
-                    tmp_val = round((y[i] + y[i + 1]) / ratio)
-                    reg_name = '서울/경기'
-                elif i == 2:
-                    tmp_val = round((y[i] + y[i + 1]) / ratio)
-                    reg_name = '경상도'
-                elif i == 11:
-                    tmp_val = round((y[i] + y[i + 1]) / ratio)
-                    reg_name = '전라도'
-                elif i == 13:
-                    tmp_val = round(y[i] / ratio)
-                    reg_name = '제주도'
-                elif i == 14:
-                    tmp_val = round((y[i] + y[i + 1]) / ratio)
-                    reg_name = '충청도'
-                data.append([reg_name, tmp_val])
+        if ratio > 0:
+            for i in range(len(region)):
+                if i in [1, 2, 14, 11, 0, 13]:
+                    if i == 0:
+                        tmp_val = round(y[i] / ratio)
+                        reg_name = '강원도'
+                    elif i == 1:
+                        tmp_val = round((y[i] + y[i + 1]) / ratio)
+                        reg_name = '서울/경기'
+                    elif i == 2:
+                        tmp_val = round((y[i] + y[i + 1]) / ratio)
+                        reg_name = '경상도'
+                    elif i == 11:
+                        tmp_val = round((y[i] + y[i + 1]) / ratio)
+                        reg_name = '전라도'
+                    elif i == 13:
+                        tmp_val = round(y[i] / ratio)
+                        reg_name = '제주도'
+                    elif i == 14:
+                        tmp_val = round((y[i] + y[i + 1]) / ratio)
+                        reg_name = '충청도'
+                    data.append([reg_name, tmp_val])
         return data
 
 """ 사용 방법 예시 """
