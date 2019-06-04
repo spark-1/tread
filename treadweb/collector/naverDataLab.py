@@ -4,11 +4,11 @@ import urllib.request
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from dateutil import parser
+import os
+import matplotlib.pyplot as plt
+from os import path
+from wordcloud import WordCloud
 import json
-import pytagcloud
-from pytagcloud import LAYOUT_HORIZONTAL, LAYOUTS, LAYOUT_MIX, LAYOUT_VERTICAL, LAYOUT_MOST_HORIZONTAL, LAYOUT_MOST_VERTICAL
-import webbrowser
-from collections import Counter
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
 
@@ -59,6 +59,18 @@ class NaverDataLab():
         # for data in result:
         #     print(data)
         #     print(result[data])
+        return result
+
+    def getNewsTitle(self, keyword):
+        url = 'https://search.naver.com/search.naver?where=news&sm=tab_jum&query=' + keyword
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.content, 'lxml')
+        titles = soup.select('.type01')
+        result = []
+        for tab in titles:
+            for i in range(len(tab.select('dt'))):
+                result.append(tab.select('dt')[i].text)
+
         return result
 
     # 키워드의 검색 빈도를 시간 단위로 출력해주는 함수
@@ -126,6 +138,45 @@ class NaverDataLab():
         else:
             print("Error Code:" + rescode)
 
+    def keyword_search_AI(self, mainKeyword, device='', age='0', gender=''):
+        client_id = "gDb5rUUUu3cNZt3fIhxy"
+        client_secret = "HWP6j_9S6w"
+        url = "https://openapi.naver.com/v1/datalab/search";
+        endTime = datetime.now().date().strftime("%Y-%m-%d")
+        startTime = (parser.parse(endTime) - timedelta(days=30)).strftime("%Y-%m-%d")
+
+        body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"date\",\"keywordGroups\":[{\"groupName\":\"" + mainKeyword + "\",\"keywords\":[" "\""+ mainKeyword + "\"]}]"
+
+        if device != '':
+            body += (",\"device\":\"" + device + "\"")
+
+        if age != '0':
+            if len(age) == 1:
+                body += (",\"age\":\"" + age + "\"")
+            else:
+                body += (",\"age\":[\"" + age[0] + "\"")
+                for i in range(1, len(age)):
+                    body += (",\"" + age[i] + "\"")
+                body += "]"
+
+        if gender != '':
+            body += (",\"gender\":\"" + gender + "\"")
+        body += "}"
+
+        request = urllib.request.Request(url)
+        request.add_header("X-Naver-Client-Id", client_id)
+        request.add_header("X-Naver-Client-Secret", client_secret)
+        request.add_header("Content-Type", "application/json")
+        response = urllib.request.urlopen(request, data=body.encode("utf-8"))
+        rescode = response.getcode()
+        if (rescode == 200):
+            response_body = response.read()
+            tmp = response_body.decode('utf-8')
+            ret = self.str_to_list(tmp, mainKeyword)
+            return ret
+        else:
+            print("Error Code:" + rescode)
+
     # api 결과를 list 형태로 변환해주는 함수
     def str_to_list(self, str, keyword):
         d_list = ['x']
@@ -159,29 +210,50 @@ class NaverDataLab():
     # keyword 에는 검색어 입력, filename은 저장할 파일 이름 입력
     # size를 800 x 800 으로 설정해도 실제로 입력한 크기보다는 약간 작게 생성됨
     #
-    def draw_cloud(self, keyword, filename, fontname='korean', size=(800, 800)):
-        keywords = self.associative_search(keyword)
-        length = len(keywords)
-        if length != 0:
-            mul_val = 10 // length
-        ratio = [20, 17, 15, 11, 11, 8, 6, 4, 4, 2, 1]
-        nouns = list()
-        if length != 0:
-            for i in range(length):
-                nouns.extend([keywords[i] for t in range(ratio[i * mul_val])])
-        else:
-            nouns.extend(keyword for t in range(20))
-        nouns = [t for t in nouns]
-        count = Counter(nouns)
-        tag2 = count.most_common(100)
-        taglist = pytagcloud.make_tags(tag2, maxsize=100)
-        pytagcloud.create_tag_image(taglist, filename, layout=LAYOUT_MIX, size=size, fontname=fontname, rectangular=False)
-        webbrowser.open(filename)
+    def draw_cloud(self, keyword, filename, fontname='korean', width=1000, height=600):
+
+        list = self.associative_search(keyword)
+        text = ''
+        ratio = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        for i in range(len(list)):
+            for j in range(ratio[i]):
+                text += (list[i] + ' ')
+        # print(text)
+        # Read the whole text.
+        # text = open(path.join(d, 'constitution.txt')).read()
+        news = self.getNewsTitle(keyword)
+
+        for i in range(len(news)):
+            text += (news[i] + ' ')
+        # Generate a word cloud image
+        wordcloud = WordCloud(font_path='C:\WINDOWS\FONTS\MALGUN.TTF', background_color='white', width=width, height=height, max_font_size=1000).generate(text)
+
+        # Display the generated image:
+        # the matplotlib way:
+
+        fig, axes = plt.subplots(ncols=1, nrows=1)
+        plt.imshow(wordcloud, interpolation='bilinear')
+        plt.axis("off")
+
+        # lower max_font_size
+
+        # plt.figure()
+        # plt.imshow(wordcloud, interpolation="bilinear")
+        # plt.axis("off")
+        plt.show()
+        fig.savefig(filename, format='png')
+
+        # The pil way (if you don't have matplotlib)
+        # image = wordcloud.to_image()
+        # image.show()
+
 
 if __name__=='__main__':
     naver = NaverDataLab()
     # a = naver.naver_searchlist('2019-05-01T10:30:00')
     # a = naver.keyword_search("휴대폰")
+    # a = naver.keyword_search_AI("휴대폰")
+    a = naver.getNewsTitle('네이버')
     # print(a)
     # naver.draw_cloud('갤럭시', 'wc.png')
-    naver.draw_cloud('갤럭시', 'wc.png')
+    naver.draw_cloud('응아', 'wc.png')
