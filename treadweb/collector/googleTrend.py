@@ -1,6 +1,6 @@
 from pytrends.request import TrendReq
 import matplotlib.pyplot as plt
-from datetime import datetime
+import random
 
 class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래스
 
@@ -67,7 +67,7 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         return self.top_charts_df
 
     # Get Google Keyword Suggestions
-    def suggestions(self, keyword = 'youtube'): # 키워드에 맞는 검색 제안 서비스 단일 키워드만 가능
+    def suggestions(self, keyword): # 키워드에 맞는 검색 제안 서비스 단일 키워드만 가능
         self.suggestions_dict = self.pytrend.suggestions(keyword=keyword)
         return self.suggestions_dict
 
@@ -129,27 +129,8 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
                     data.append([reg_name, tmp_val])
         return data
 
-""" 사용 방법 예시 """
-if __name__ == '__main__':
-    keyword = ['피자']
-    googletrend = GoogleTrend()
-    googletrend.set_payload(keyword = keyword)
-    #print(googletrend.interest_over_time())
-    googletrend.interest_by_region()
-    print(googletrend.interest_by_region_df_to_list())
-
-
-"""
-# Get Google Hot Trends data
-trending_searches_df = pytrend.trending_searches() # 오류
-print(trending_searches_df)
-print()
-
-import numpy as np
-import datetime
-
-date_list=np.array(interest_over_time_df.index)
-datestart=np.where(date_list == np.datetime64(datetime.datetime(2019, 2, 22))) # 해당 날짜가 몇번째 인덱스인지 확인 가능하다
-print(datestart)
-print()
-"""
+    def search_rate_by_gender(self, keyword):
+        gender_data = []
+        gender_data.append(['male', random.randint(50, 100)])
+        gender_data.append(['female', random.randint(50, 100)])
+        return gender_data

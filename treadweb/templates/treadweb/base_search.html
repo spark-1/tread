@@ -75,5 +75,10 @@
             </div>
         {% endif %}
 	</div>
+    {% ifequal WC_exists 'yes' %}
+        <div>
+        <img src="{% static 'treadweb/img/wordcloud.png' %}"/>
+        </div>
+    {% endifequal %}
 
 {% endblock body2 %}
