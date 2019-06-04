@@ -6,7 +6,8 @@ import json
 class ChannelInfo :
 
     def __init__(self):
-        self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
+        f = open('tread_privacy.txt', mode='tr', encoding='utf-8')
+        self.__developer_key = f.read().split('=')[1]
       #channel_data로 채널 정보, video 정보들 string으로 받을 수 있음
       #channel_data["video_list"]["index"]["video_statistics"]["viewCount"]로
 
