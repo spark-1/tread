@@ -10,7 +10,8 @@ class YoutubeSearch :
 
     def __init__(self, size=20):
         self.size = size; #각 검색요소당 결과로 나올 영상 개수
-        self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
+        f = open('tread_privacy.txt', mode='tr', encoding='utf-8')
+        self.__developer_key = f.read().split('=')[1]
         self.tags = {'전체': 0, '영화': 1, '음악': 10, 'Car': 2, '펫': 15, '먹방': 26, '스포츠': 17, '게임': 20,
                      '코믹': 23,  '과학기술': 28, '엔터테인먼트': 24}
 
