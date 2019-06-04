@@ -28,7 +28,6 @@ def search_page(request):
 @csrf_protect
 def search_keyword(request, keyword):
     naver = NaverDataLab()
-    naver.draw_cloud(keyword, 'treadweb/static/treadweb/img/word_cloud.png')
     now = datetime.now()
     time = now.strftime("%Y-%m-%dT%H:%M:%S")
     keyword_rank = naver.naver_searchlist(time)
@@ -51,7 +50,7 @@ def search_keyword(request, keyword):
     })
 
 def channel_page(request):
-    youtube = YoutubeSearch(50)
+    youtube = YoutubeSearch()
     tag_keys = list(youtube.tags.keys())
     n = len(tag_keys) // 2
     tag_list = [tag_keys[:n], tag_keys[n + 1:]]
