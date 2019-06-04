@@ -5,6 +5,7 @@
     <li><a href="{% url 'treadweb:search' %}" accesskey="2" title="">Search</a></li>
     <li><a href="{% url 'treadweb:channel' %}" accesskey="3" title="">Channel</a></li>
     <li class="current_page_item"><a href="{% url 'treadweb:video' %}" accesskey="4" title="">Video</a></li>
+    <li><a data-toggle="modal" data-target="#myModal" href="#myModal"><i class="fa fa-envelope-o"></i></a></li>
 {% endblock menu %}
 
 {% block body0 %}
@@ -44,7 +45,7 @@
                             <p>{{ video.video_title }}</p>
                         </div>
                         <div class="byline-separated">
-                            <p>{{ video.channel_title }} &emsp;• &emsp;조회수 {{ video.view_count }} &emsp;• &emsp;{{ video.publishedAt }}</p>
+                            <p>{{ video.channel_title }} • 조회수 {{ video.view_count }} • {{ video.publishedAt }}</p>
                         </div>
                     </div>
                 </div>
