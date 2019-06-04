@@ -31,17 +31,31 @@
         {% if video_list %}
         <div class="contents">
         {% for video in video_list %}
-            <div class="item-section">
-                <div class="video-renderer">
+            <div class="item-section" id="video{{ forloop.counter }}">
+                <div class="video-renderer" onclick="setVideo({{ forloop.counter }}, '{{ video.video_id }}')">
                     <div class="video-item rank"><span>{{ forloop.counter }}</span></div>
-                    <div class="video-item video-thumbnails"><span><img src="{{ video.video_thumbnail }}"/></span></div>
+                    <div class="video-item video-thumbnails" >
+                        <span>
+                            <img src="{{ video.video_thumbnail }}"/>
+                        </span>
+                    </div>
                     <div class="video-item video-text-wrapper">
-                        <div class="title-wrapper">
+                        <div class="title-wrapper" onclick="setVideo({{ forloop.counter }}, '{{ video.video_id }}')">
                             <p>{{ video.video_title }}</p>
                         </div>
                         <div class="byline-separated">
                             <p>{{ video.channel_title }} • 조회수 {{ video.view_count }} • {{ video.publishedAt }}</p>
                         </div>
+                    </div>
+                </div>
+                <div class="video-wrapper" v-if="isSet">
+                     <div class="video">
+                        <video-component></video-component>
+                    </div>
+                    <div class="video-description">
+                        <template v-if="isSet">
+                            <p>{{ video.description }}</p>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -52,4 +66,5 @@
 {% endblock body1 %}
 
 {% block body2 %}
+
 {% endblock body2 %}

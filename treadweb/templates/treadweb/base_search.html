@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block menu %}
     <li><a href="{% url 'treadweb:home' %}" accesskey="1" title="">Home</a></li>
     <li class="current_page_item"><a href="{% url 'treadweb:search' %}" accesskey="2" title="">Search</a></li>
@@ -75,4 +75,5 @@
             </div>
         {% endif %}
 	</div>
+
 {% endblock body2 %}

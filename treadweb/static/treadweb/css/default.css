@@ -944,11 +944,6 @@
 		text-align: left;
 	}
 
-	.contents .item-section
-	{
-		display: flex;
-	}
-
 	.video-item
 	{
 		padding: 12px 0;
@@ -957,7 +952,7 @@
 
 	.video-renderer
 	{
-		margin-top: 42px;
+		margin: 42px 0 auto;
 		display: flex;
 	}
 
@@ -969,10 +964,10 @@
 
 	.video-thumbnails
 	{
-		flex-grow: 2;
 		width: 120px;
 		height: 90px;
 		margin-right: 24px;
+        cursor: pointer;
 	}
 
 	.video-text-wrapper
@@ -1001,4 +996,32 @@
 		text-overflow: ellipsis;
 		white-space: normal;
 		display: -webkit-box;
+        cursor: pointer;
 	}
+
+    .video-wrapper
+    {
+        margin: 30px 10% auto;
+        display: flex;
+    }
+
+    .video
+    {
+        flex-grow: 1;
+        margin-right: 42px;
+    }
+
+    .video-description
+    {
+        flex-grow: 1;
+        font-size: 14px;
+    }
+
+    /**
+    word cloud
+     */
+    #wordcloud>img
+    {
+        margin: auto;
+        padding: 0em 3em;
+    }

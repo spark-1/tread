@@ -105,27 +105,28 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         ratio /= 100
         tmp_val = 0
         reg_name = ''
-        for i in range(len(region)):
-            if i in [1, 2, 14, 11, 0, 13]:
-                if i == 0:
-                    tmp_val = round(y[i] / ratio)
-                    reg_name = '강원도'
-                elif i == 1:
-                    tmp_val = round((y[i] + y[i + 1]) / ratio)
-                    reg_name = '서울/경기'
-                elif i == 2:
-                    tmp_val = round((y[i] + y[i + 1]) / ratio)
-                    reg_name = '경상도'
-                elif i == 11:
-                    tmp_val = round((y[i] + y[i + 1]) / ratio)
-                    reg_name = '전라도'
-                elif i == 13:
-                    tmp_val = round(y[i] / ratio)
-                    reg_name = '제주도'
-                elif i == 14:
-                    tmp_val = round((y[i] + y[i + 1]) / ratio)
-                    reg_name = '충청도'
-                data.append([reg_name, tmp_val])
+        if ratio > 0:
+            for i in range(len(region)):
+                if i in [1, 2, 14, 11, 0, 13]:
+                    if i == 0:
+                        tmp_val = round(y[i] / ratio)
+                        reg_name = '강원도'
+                    elif i == 1:
+                        tmp_val = round((y[i] + y[i + 1]) / ratio)
+                        reg_name = '서울/경기'
+                    elif i == 2:
+                        tmp_val = round((y[i] + y[i + 1]) / ratio)
+                        reg_name = '경상도'
+                    elif i == 11:
+                        tmp_val = round((y[i] + y[i + 1]) / ratio)
+                        reg_name = '전라도'
+                    elif i == 13:
+                        tmp_val = round(y[i] / ratio)
+                        reg_name = '제주도'
+                    elif i == 14:
+                        tmp_val = round((y[i] + y[i + 1]) / ratio)
+                        reg_name = '충청도'
+                    data.append([reg_name, tmp_val])
         return data
 
 """ 사용 방법 예시 """

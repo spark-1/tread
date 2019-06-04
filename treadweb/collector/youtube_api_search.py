@@ -105,7 +105,6 @@ class YoutubeSearch :
         response = json.loads(data)["items"]
         v_data : data = []
         for i in range(len(response)):
-            print(response[i]["snippet"]["thumbnails"]["default"])
             v_data.append({
                 'video_id' : response[i]["id"],
                 'publishedAt' : response[i]["snippet"].get("publishedAt"),
