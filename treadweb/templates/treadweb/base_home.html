@@ -3,17 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width", initial-scale="1">
-
-  <!-- Libraries CSS Files -->
-  <link href="//maxcdn.bootstrap.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>트리드 - 트렌드를 읽다</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
     {% load staticfiles %}
     <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue@2.5.2"></script>
     <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
     <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -29,40 +25,32 @@
 
 </head>
 <body>
-
-
-
-
-
 <div id="header-wrapper">
-  <div id="header">
-    <div id="logo">
-      <a class="navbar-brand" href="{% url 'treadweb:home' %}">TREAD</a>
-    </div>
-    <div id="menu">
-      <ul>
+	<div id="header">
+		<div id="logo">
+			<h1><a href="{% url 'treadweb:home' %}"><img src="{% static 'treadweb/img/tread_logo.jpg' %}" width="160" height="80" alt="logo" /></a></h1>
+		</div>
+		<div id="menu">
+			<ul>
                 {% block menu %}
                     <li class="current_page_item"><a href="{% url 'treadweb:home' %}" accesskey="1" title="">Home</a></li>
                     <li><a href="{% url 'treadweb:search' %}" accesskey="2" title="">Search</a></li>
                     <li><a href="{% url 'treadweb:channel' %}" accesskey="3" title="">Channel</a></li>
                     <li><a href="{% url 'treadweb:video' %}" accesskey="4" title="">Video</a></li>
-                    <li><a data-toggle="modal" data-target="#myModal" href="#myModal"><i class="fa fa-envelope-o"></i></a></li>
                 {% endblock menu %}
-      </ul>
-    </div>
-  </div>
+			</ul>
+		</div>
+	</div>
 </div>
-
-
-
 <div id="page-wrapper">
-    <div class="row centered">
-      <div class="col-lg-8 col-lg-offset-2">
-        <h1>Read Trend information <b>in 2019</b></h1>
-        <h2>You get the latest trends from us <br>give you more information about the trend keyword</h2>
-      </div>
-    </div>
     {% block body0 %}
+    <div class="home-banner">
+        <div id="home-title">TREAD</div>
+        <div id="home-description">
+            <p>You get the latest trends from us</p>
+            <p>and give you more information about the keywords you want.</p>
+        </div>
+    </div>
     {% endblock body0 %}
     {% block body1 %}
     {% endblock body1%}
@@ -72,36 +60,8 @@
     {% endblock body3 %}
 </div>
 
-
-<div class="container w">
-  <div class="row centered">
-    <br><br>
-    <div class="col-lg-4">
-      <i class="fa fa-google"></i>
-      <h4>GOOGLE TREND</h4>
-      <p>There are many variations of passages</p>
-  </div>
-
-  <div class="col-lg-4">
-    <i class="fa fa-database"></i>
-    <h4>NAVER</h4>
-    <p>There are many variation of passages</p>
-  </div>
-
-  <div class="col-lg-4">
-    <i class="fa fa-youtube"></i>
-    <h4>YOUTUBE</h4>
-    <p>There are many variation of passages</p>
-  </div>
-</div>
-<br><br>
-</div>
-
-
-<div id="copyright">
-  <div class="container">
-  <p>&copy; All rights reserved. | Design by TREAD.</p>
-  </div>
+<div id="copyright" class="container">
+	<p>&copy; All rights reserved. | Design by TREAD.</p>
 </div>
     <script src="{% static 'treadweb/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'treadweb/js/chart.js' %}"></script>

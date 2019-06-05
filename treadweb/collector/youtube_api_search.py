@@ -10,7 +10,8 @@ class YoutubeSearch :
 
     def __init__(self, size=20):
         self.size = size; #각 검색요소당 결과로 나올 영상 개수
-        self.__developer_key = "AIzaSyDJaA3yPXhSDKxYYu0DTLs1VSPMg1FlXxw"
+        f = open('tread_privacy.txt', mode='tr', encoding='utf-8')
+        self.__developer_key = f.read().split('=')[1]
         self.tags = {'전체': 0, '영화': 1, '음악': 10, 'Car': 2, '펫': 15, '먹방': 26, '스포츠': 17, '게임': 20,
                      '코믹': 23,  '과학기술': 28, '엔터테인먼트': 24}
 
@@ -106,16 +107,16 @@ class YoutubeSearch :
         v_data : data = []
         for i in range(len(response)):
             v_data.append({
-                'video_id' : response[i]["id"],
-                'publishedAt' : response[i]["snippet"].get("publishedAt"),
-                'channel_id' : response[i]["snippet"].get("channelId"),
-                'video_title' : response[i]["snippet"].get("title"),
-                'description' : response[i]["snippet"].get("description"),
-                'channel_title' : response[i]["snippet"].get("channelTitle"),
-                'view_count' : response[i]["statistics"].get("viewCount"),
-                'like_count' : response[i]["statistics"].get("likeCount"),
-                'dislike_count' : response[i]["statistics"].get("dislikeCount"),
-                'comment_count' : response[i]["statistics"].get("commentCount"),
+                'video_id': response[i]["id"],
+                'publishedAt': response[i]["snippet"].get("publishedAt").split('T')[0],
+                'channel_id': response[i]["snippet"].get("channelId"),
+                'video_title': response[i]["snippet"].get("title"),
+                'description': response[i]["snippet"].get("description"),
+                'channel_title': response[i]["snippet"].get("channelTitle"),
+                'view_count': self.convert_numeric_unit(response[i]["statistics"].get("viewCount")),
+                'like_count': response[i]["statistics"].get("likeCount"),
+                'dislike_count': response[i]["statistics"].get("dislikeCount"),
+                'comment_count': response[i]["statistics"].get("commentCount"),
                 'video_thumbnail': response[i]["snippet"]["thumbnails"]["default"].get("url")
              })
             #defaultAudioLanguage속성을 넣지 않은 영상들도 많아서 ko걸로 구분이 안됨
@@ -134,3 +135,12 @@ class YoutubeSearch :
         video_statistics["commnet_count"] = data[0]["statistics"]["commentCount"]
 
         return video_statistics
+
+    def convert_numeric_unit(self, number):
+        num = int(number)
+        if num >= 100000000:
+            return str(num // 100000000) + "억"
+        elif num >= 10000:
+            return str(num // 10000) + "만"
+        else:
+            return str(num);

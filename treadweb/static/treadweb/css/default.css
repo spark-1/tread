@@ -1,17 +1,18 @@
-	html, body
+html, body
 	{
 		height: 100%;
 	}
 
-	body
+		body
 	{
 		margin: 0px auto;
 		padding: 0px;
-		background: #111111;
+		background-color: #f2f2f2;
 		font-family: 'Questrial', sans-serif;
 		font-size: 12pt;
-		color: rgba(0,0,0,.8);
+		color: #555;
 	}
+
 
 
 	h1, h2, h3
@@ -64,12 +65,23 @@
         text-align: center;
     }
 
+
 	.container
 	{
-		margin: 0px auto;
-		padding: 2em 2em;
-		width: 100%;
-        display:block;
+		padding-right: 15px;
+		padding-left:15px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+	.centered
+	{
+		text-align: center;
+	}
+
+	.row
+	{
+		margin-right: -15px;
+		margin-left: -15px;
 	}
 
 
@@ -355,6 +367,8 @@
 		margin: 0px auto;
 		padding: 2em 2em 0em 2em;
 		background: #FFF;
+		padding-top: 15px;
+		padding-bottom: 15px;
 	}
 
 	#header
@@ -362,6 +376,12 @@
 		position: relative;
 	}
 
+	.navbar-brand {
+	  color: #999999;
+	  font-weight: bolder;
+	  font-size: 22px;
+	  letter-spacing: 1px;
+	}
 /*********************************************************************************/
 /* Logo                                                                          */
 /*********************************************************************************/
@@ -477,43 +497,27 @@
 	}
 
 /*********************************************************************************/
-/* Welcome                                                                       */
-/*********************************************************************************/
-
-	#welcome
-	{
-		overflow: hidden;
-		width: 1000px;
-		padding: 8em 100px 0em 100px;
-		text-align: center;
-		color: rgba(0,0,0,0.6);
-	}
-
-	#welcome .content
-	{
-		padding: 0em 8em;
-	}
-
-	#welcome .title h2
-	{
-		color: rgba(0,0,0,0.8);
-	}
-
-	#welcome a,
-	#welcome strong
-	{
-		color: rgba(0,0,0,0.8);
-	}
-
-/*********************************************************************************/
 /* Page                                                                          */
 /*********************************************************************************/
 
-	#page-wrapper
+		#page-wrapper
 	{
-		overflow: hidden;
-		background: #FFFFFF;
-		padding: 1em 0em;
+	  background: url(../img/hero-bg-03.jpg) no-repeat center top;
+	  margin-top: -10px;
+	  padding-top: 35px;
+	  text-align: center;
+	  background-attachment: relative;
+	  background-position: center center;
+	  min-height: 500px;
+	  width: 100%;
+	  -webkit-background-size: 100%;
+	  -moz-background-size: 100%;
+	  -o-background-size: 100%;
+	  background-size: 100%;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  background-size: cover;
 	}
 
 	.container .title h2
@@ -522,17 +526,57 @@
 		text-align: center;
 	}
 
+	#page-wrapper h1{
+		margin-top:100px;
+		color:white;
+		font-size:50px;
+		font-weight: 300;
+		letter-spacing: 3px;
+	}
+
+	#page-wrapper h2{
+
+		color:white;
+		font-size:30px;
+		font-weight: 100;
+		letter-spacing: 2px;
+
+	}
+
+
+
+/******************SECTIONS********************/
+
+.w {
+  padding-top: 35px;
+}
+
+.w h4 {
+  font-weight: 700;
+}
+
+.w i {
+  color: #e74855;
+  font-size: 30px;
+}
+
 
 /*********************************************************************************/
 /* Content                                                                       */
 /*********************************************************************************/
 
-	#content
+    #right-border
+    {
+        border-right: 1px solid rgba(0,0,0,.1);
+    }
+
+	.chart-content
 	{
-		float:left;
-		width: 600px;
-		padding: 0em 3em;
-		border-right: 1px solid rgba(0,0,0,.1);
+        width: 45%;
+        margin: 5px;
+        float: left;
+        text-align: center;
+        padding: 3% 0px;
 	}
 
 /*********************************************************************************/
@@ -578,10 +622,10 @@
 
 	#copyright
 	{
-		overflow: hidden;
-		padding: 5em 0em;
-		border-top: 1px solid rgba(255,255,255,0.08);
+		background: #222222;
+		padding: 20px 0;
 		text-align: center;
+		color: #fff;
 	}
 
 	#copyright p
@@ -596,6 +640,7 @@
 		text-decoration: none;
 		color: rgba(255,255,255,0.8);
 	}
+
 
 /*********************************************************************************/
 /* Newsletter                                                                    */

@@ -6,7 +6,7 @@ from .collector.googleTrend import GoogleTrend
 from datetime import datetime
 from .collector.youtube_api_channelInfo import ChannelInfo
 from .collector.youtube_api_search import YoutubeSearch
-from django.contrib.staticfiles.templatetags.staticfiles import static
+import os
 
 import json
 # Create your views here.
@@ -28,7 +28,7 @@ def search_page(request):
 @csrf_protect
 def search_keyword(request, keyword):
     naver = NaverDataLab()
-    naver.draw_cloud(keyword, 'treadweb/static/treadweb/img/word_cloud.png')
+    naver.draw_cloud(keyword)
     now = datetime.now()
     time = now.strftime("%Y-%m-%dT%H:%M:%S")
     keyword_rank = naver.naver_searchlist(time)
@@ -39,15 +39,14 @@ def search_keyword(request, keyword):
     googletrend.set_payload()
     googletrend.interest_by_region()
     region_result = googletrend.interest_by_region_df_to_list()
-    donut_result = [
-        ["male", 30],
-        ["female", 50]
-    ]
+    donut_result = googletrend.search_rate_by_gender(keyword)
+    WC_exists = 'yes' if os.path.exists('treadweb/static/treadweb/img/wordcloud.png') else 'no'
     return render(request, 'treadweb/base_search.html', {
         'keyword_rank': keyword_rank,
         'line_result': json.dumps(line_result),
         'region_result': json.dumps(region_result),
-        'donut_result': json.dumps(donut_result)
+        'donut_result': json.dumps(donut_result),
+        'WC_exists': WC_exists
     })
 
 def channel_page(request):
