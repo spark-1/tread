@@ -4,7 +4,7 @@ import random
 
 class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래스
 
-    def __init__(self, keyword, hl = 'ko', tz = '82', timeframe = 'today 5-y', cat = 0, geo = 'KR', gprop = ''): # 생성자 기본 설정 값
+    def __init__(self, keyword = ['youtube'], hl = 'ko', tz = '82', timeframe = 'today 5-y', cat = 0, geo = 'KR', gprop = ''): # 생성자 기본 설정 값
         self.hl = hl
         self.tz = tz
         self.keyword = keyword
@@ -34,7 +34,7 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
     def set_payload(self, keyword = None, timeframe = 'None', cat = -1, geo = 'None', gprop = 'None'): # 키워드리스트, 타임프레임, 카테고리, 지역, 구글 프로퍼티
         if keyword != None :
             self.keyword = keyword
-        if timeframe != 'None': # ex) 'all', 'today 5-y', 'today 3-m', 'now 7-d', 'now 1-H', '2018-05-20 2019-01-20'
+        if timeframe != 'None': # ex) 'all', 'today 5-y', 'today 1,2,3-m', 'now 1,7-d', 'now 1,4-H', '2018-05-20 2019-01-20'
             self.timeframe = timeframe
         if cat != -1:
             self.cat = cat
@@ -51,25 +51,48 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         self.interest_over_time_list = self.interest_over_time_df_to_list()
         return self.interest_over_time_list
 
+    # Interest Over Time hourly
+    def historical_hourly_interest(self):
+        self.historical_hourly_interest_df = self.pytrend.get_historical_interest(keywords=self.keyword, year_start=2019, month_start=4, day_start=1, hour_start=0, year_end=2019, month_end=5, day_end=1, hour_end=0, cat=0, geo='KR', gprop='', sleep=0)  # Returns pandas.Dataframe
+        self.historical_hourly_interest_df = self.historical_hourly_interest_df.iloc[:, :self.keyword.__len__()]  # 안쓰는 데이터 isPartial 제거
+        self.historical_hourly_interest_list = self.historical_hourly_interest_df_to_list()
+        return self.historical_hourly_interest_list
+
     # Interest by Region
     def interest_by_region(self): # 지역별로 검색 비율을 알려준다
         self.interest_by_region_df = self.pytrend.interest_by_region()
-        return self.interest_by_region_df
+        self.interest_by_region_list = self.interest_by_region_df_to_list()
+        return self.interest_by_region_list
+
+    # Related Topics, Returns dictionary of pandas.DataFrames
+    def related_topics(self): # 키워드 관련 토픽을 순위별로 알려준다
+        self.related_topics_dict = self.pytrend.related_topics()
+        return self.related_topics_dict
 
     # Related Queries, returns a dictionary of dataframes
     def related_queries(self): # 키워드 관련 검색어를 순위별로 알려준다
         self.related_queries_dict = self.pytrend.related_queries()
         return self.related_queries_dict
 
+    # trending searches in real time
+    def trending_searches(self): # 현재 시간대 인기검색어 순위 20까지 보여준다
+        self.trending_searches_df = self.pytrend.trending_searches(pn='south_korea')
+        return self.trending_searches_df
+
+    #
+    def today_searches(self):  #
+        self.today_searches_df = self.pytrend.today_searches()
+        return self.today_searches_df
+
     # Get Google Top Charts
-    def top_charts(self): # 카테고리 별로 검색어 상위 랭크 보기 근데 에러...
-        self.top_charts_df = self.pytrend.top_charts(date=201812, cid='Online Video')
+    def top_charts(self): # 년 단위로 상위 핫 키워드 가져오기
+        self.top_charts_df = self.pytrend.top_charts(date=2015, hl='ko', tz='82', geo='KR') # date = YYYY integer, tz='82', geo='KR', geo='GLOBAL', geo='US'
         return self.top_charts_df
 
-    # Get Google Keyword Suggestions
-    def suggestions(self, keyword): # 키워드에 맞는 검색 제안 서비스 단일 키워드만 가능
-        self.suggestions_dict = self.pytrend.suggestions(keyword=keyword)
-        return self.suggestions_dict
+    # Get Google Category
+    def categories(self): # 구글 카테고리 종류와 id를 보여준다
+        self.categories_df = self.pytrend.categories()
+        return self.categories_df
 
     def show_interest_over_time(self): # 시간에 따른 검색 비율을 그래프로 보여준다
         num = 0.0
@@ -90,6 +113,19 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         data.append(date)
         for key in self.keyword:
             y = self.interest_over_time_df[key].tolist()
+            y.insert(0, key)
+            data.append(y)
+        return data
+
+    def historical_hourly_interest_df_to_list(self):  # historical_hourly_interest_df의 데이터프레임 타입의 데이터를 리스트 타입으로 변환
+        date = self.historical_hourly_interest_df.index.tolist()
+        for i in range(len(date)):
+            date[i] = date[i].date().strftime("%Y-%m-%d")
+        date.insert(0, 'x')
+        data = []
+        data.append(date)
+        for key in self.keyword:
+            y = self.historical_hourly_interest_df[key].tolist()
             y.insert(0, key)
             data.append(y)
         return data
@@ -129,8 +165,17 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
                     data.append([reg_name, tmp_val])
         return data
 
-    def search_rate_by_gender(self, keyword):
-        gender_data = []
-        gender_data.append(['male', random.randint(50, 100)])
-        gender_data.append(['female', random.randint(50, 100)])
-        return gender_data
+if __name__ == '__main__':
+    keyword = ['햄버거']
+    googletrend = GoogleTrend()
+    googletrend.set_payload(keyword = keyword)
+    #print(googletrend.interest_over_time())
+    #print(googletrend.historical_hourly_interest())
+    #print(googletrend.interest_by_region())
+    #print(googletrend.related_topics())
+    #print(googletrend.related_queries())
+    #print(googletrend.trending_searches());
+    #print(googletrend.today_searches());
+    #print(googletrend.top_charts())
+    #print(googletrend.categories())
+
