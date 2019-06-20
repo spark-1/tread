@@ -6,26 +6,19 @@ from datetime import datetime, timedelta
 from dateutil import parser
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+from .data_collector import DataCollector
 from django.contrib.staticfiles.templatetags.staticfiles import static
 import json
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
 
-class NaverDataLab():
-
-    def remove_tag(self, content):
-        cleanr = re.compile('<.*?>')
-        cleantext = re.sub(cleanr, '', content)
-        return cleantext
-
+class NaverDataLab(DataCollector):
     # 연관검색어를 리스트형태로 리턴
     def associative_search(self, keyword):
         url = 'https://search.naver.com/search.naver?where=nexearch&query=' + keyword
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.content, 'lxml')
-
         subkeywords = soup.select('._related_keyword_ul')
-
         result = []
 
         for tab in subkeywords:
@@ -42,9 +35,7 @@ class NaverDataLab():
         soup = BeautifulSoup(response.content, 'lxml')
 
         rank_tabs = soup.select('.keyword_rank')[0:4]
-
         result = {}
-
         for tab in rank_tabs:
             ranks = tab.select('.list .title')
             title = tab.select('.rank_title')[0].text
@@ -54,10 +45,6 @@ class NaverDataLab():
                 if i < 10:
                     result[title].append(rank.text)
                     i += 1
-
-        # for data in result:
-        #     print(data)
-        #     print(result[data])
         return result
 
     def getNewsTitle(self, keyword):
@@ -69,7 +56,6 @@ class NaverDataLab():
         for tab in titles:
             for i in range(len(tab.select('dt'))):
                 result.append(tab.select('dt')[i].text)
-
         return result
 
     # 키워드의 검색 빈도를 시간 단위로 출력해주는 함수
@@ -91,7 +77,7 @@ class NaverDataLab():
     # - 10: 55∼59세
     # - 11: 60세 이상
     # gender -> 검색 성별 설정 (입력 안하면 male + female 결과 출력) ex) "m" or "f"
-    def keyword_search(self, mainKeyword, device='', age='0', gender=''):
+    def keyword_search(self, mainKeyword):
         client_id = "gDb5rUUUu3cNZt3fIhxy"
         client_secret = "HWP6j_9S6w"
         url = "https://openapi.naver.com/v1/datalab/search";
@@ -105,23 +91,7 @@ class NaverDataLab():
         body += ("\"" + keywords[0] + "\"")
         for i in range(1, len(keywords)):
             body += (",\"" + keywords[i] + "\"")
-        body += "]}]"
-
-        if device != '':
-            body += (",\"device\":\"" + device + "\"")
-
-        if age != '0':
-            if len(age) == 1:
-                body += (",\"age\":\"" + age + "\"")
-            else:
-                body += (",\"age\":[\"" + age[0] + "\"")
-                for i in range(1, len(age)):
-                    body  += (",\"" + age[i] + "\"")
-                body += "]"
-
-        if gender != '':
-            body += (",\"gender\":\"" + gender + "\"")
-        body += "}"
+        body += "]}]}"
 
         request = urllib.request.Request(url)
         request.add_header("X-Naver-Client-Id",client_id)
@@ -228,6 +198,7 @@ class NaverDataLab():
         plt.axis("off")
         fig.savefig('treadweb/static/treadweb/img/wordcloud.png', format='png')
 
-if __name__=='__main__':
-    naver = NaverDataLab()
-    naver.draw_cloud('구글')
+        def remove_tag(self, content):
+            cleanr = re.compile('<.*?>')
+            cleantext = re.sub(cleanr, '', content)
+            return cleantext

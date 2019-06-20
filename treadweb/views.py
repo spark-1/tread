@@ -32,14 +32,13 @@ def search_keyword(request, keyword):
     now = datetime.now()
     time = now.strftime("%Y-%m-%dT%H:%M:%S")
     keyword_rank = naver.naver_searchlist(time)
-    line_result = naver.keyword_search(keyword)
+    line_result = naver.load_data(keyword)
     keywords = []
     keywords.append(keyword)
     googletrend = GoogleTrend(keyword=keywords)
     googletrend.set_payload()
-    googletrend.interest_by_region()
-    region_result = googletrend.interest_by_region_df_to_list()
-    donut_result = googletrend.search_rate_by_gender(keyword)
+    region_result = googletrend.load_data('region')
+    donut_result = googletrend.load_data('gender')
     WC_exists = 'yes' if os.path.exists('treadweb/static/treadweb/img/wordcloud.png') else 'no'
     return render(request, 'treadweb/base_search.html', {
         'keyword_rank': keyword_rank,
