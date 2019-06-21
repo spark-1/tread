@@ -10,11 +10,10 @@
 
 {% block body0 %}
     <div id="searchbar">
-        <form action="{% url 'treadweb:search' %}" method="post">
-            {% csrf_token %}
-          <input type="text" class="textbox" placeholder="Search" name="keyword">
-            <button title="Search" type="submit" class="button"><i class="fa fa-search"></i></button>
-        </form>
+         <div id="form">
+        <input type="text" id="keyword_text" class="textbox" placeholder="Search">
+        <button title="Search" class="button" onclick="search_keyword()"><i class="fa fa-search"></i></button>
+         </div>
     </div>
     <div class="container">
         <div class="keyword_rank">
@@ -24,10 +23,10 @@
                 <ul class="rank_list">
                     {% for word in rank_list %}
                     <li class="list">
-                        <a href="{% url 'treadweb:search_keyword' word %}" class="list_area">
+                        <div class="list_area" onclick="search_keyword('{{ word }}')">
                             <span class="num">{{ forloop.counter }}</span>
                             <span class="list_title">{{ word }}</span>
-                        </a>
+                        </div>
                     </li>
                     {% endfor %}
                 </ul>
@@ -38,48 +37,14 @@
 {% endblock body0 %}
 
 {% block body1 %}
-    {% if line_result %}
-        <script type="text/javascript">
-         var line_data = {{ line_result | safe }};
-        </script>
-        <div id="banner" class="container">
-            <div class="title">
-                <h2>Recent Searches</h2>
-            </div>
-            <div id="line-chart"></div>
-        </div>
-    {% endif %}
+    <line-chart-component></line-chart-component>
 {% endblock body1 %}
 
 {% block body2 %}
-    	<div class="container">
-        {% if region_result %}
-            <script type="text/javascript">
-                var region_data = {{ region_result | safe }};
-            </script>
-            <div id="right-border" class="chart-content">
-                <div class="title">
-                    <h2>Trend By Region</h2>
-                </div>
-                <div id="region-chart"></div>
-            </div>
-        {% endif %}
-        {% if donut_result %}
-            <script type="text/javascript">
-                var donut_data = {{ donut_result | safe }};
-            </script>
-            <div class="chart-content">
-                <div class="title">
-                    <h2>남/녀 검색 비율</h2>
-                </div>
-                <div id="donut-chart"></div>
-            </div>
-        {% endif %}
+    <div class="container">
+        <region-chart-component></region-chart-component>
+        <gender-chart-component></gender-chart-component>
 	</div>
-    {% ifequal WC_exists 'yes' %}
-        <div class="container align-center">
-        <img src="{% static 'treadweb/img/wordcloud.png' %}"/>
-        </div>
-    {% endifequal %}
+    <wordcloud-component></wordcloud-component>
 
 {% endblock body2 %}

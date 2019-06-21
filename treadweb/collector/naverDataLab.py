@@ -7,8 +7,7 @@ from dateutil import parser
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from treadweb.collector.data_collector import DataCollector
-from django.contrib.staticfiles.templatetags.staticfiles import static
-import json
+
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'}
 

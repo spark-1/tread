@@ -18,6 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
     <!-- CSS -->
@@ -44,6 +45,7 @@
   </div>
 </div>
 
+<div id="page-wrapper">
     {% block body0 %}
     {% endblock body0 %}
 
@@ -55,15 +57,17 @@
 
     {% block body3 %}
     {% endblock body3 %}
+</div>
 
 <div id="copyright">
   <div class="container">
   <p>&copy; All rights reserved. | Design by TREAD.</p>
   </div>
 </div>
+
     <script src="{% static 'treadweb/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'treadweb/js/chart.js' %}"></script>
-    <script src="{% static 'treadweb/js/rank.js' %}"></script>
+    <script src="{% static 'treadweb/js/chart_vue.js' %}"></script>
+    <script src="{% static 'treadweb/js/rank_vue.js' %}"></script>
 
 </body>
 </html>

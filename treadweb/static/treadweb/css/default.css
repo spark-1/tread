@@ -120,27 +120,27 @@ html, body
 /* Form Style                                                                    */
 /*********************************************************************************/
 
-		form
+		#form
 		{
 		}
 
-			form label
+			#form label
 			{
 				display: block;
 				text-align: left;
 				margin-bottom: 0.5em;
 			}
 
-			form .submit
+			#form .submit
 			{
 				margin-top: 2em;
 				line-height: 1.5em;
 				font-size: 1.3em;
 			}
 
-			form input.text,
-			form select,
-			form textarea
+			#form input.text,
+			#form select,
+			#form textarea
 			{
 				position: relative;
 				-webkit-appearance: none;
@@ -163,51 +163,51 @@ html, body
 				outline: none;
 			}
 
-				form input.text:hover,
-				form select:hover,
-				form textarea:hover
+				#form input.text:hover,
+				#form select:hover,
+				#form textarea:hover
 				{
 				}
 
-				form input.text:focus,
-				form select:focus,
-				form textarea:focus
+				#form input.text:focus,
+				#form select:focus,
+				#form textarea:focus
 				{
 					box-shadow: 0 0 2px 1px #E0E0E0;
 					background: #fff;
 				}
 
-				form textarea
+				#form textarea
 				{
 					min-height: 12em;
 				}
 
-				form .formerize-placeholder
+				#form .formerize-placeholder
 				{
 					color: #555 !important;
 				}
 
-				form ::-webkit-input-placeholder
+				#form ::-webkit-input-placeholder
 				{
 					color: #555 !important;
 				}
 
-				form :-moz-placeholder
+				#form :-moz-placeholder
 				{
 					color: #555 !important;
 				}
 
-				form ::-moz-placeholder
+				#form ::-moz-placeholder
 				{
 					color: #555 !important;
 				}
 
-				form :-ms-input-placeholder
+				#form :-ms-input-placeholder
 				{
 					color: #555 !important;
 				}
 
-				form ::-moz-focus-inner
+				#form ::-moz-focus-inner
 				{
 					border: 0;
 				}
@@ -502,7 +502,7 @@ html, body
 /* Page                                                                          */
 /*********************************************************************************/
 
-#page-wrapper
+	#main-wrapper
 	{
 	  background: url(../img/hero-bg-03.jpg) no-repeat center top;
 	  margin-top: -10px;
@@ -530,15 +530,12 @@ html, body
 
 	#page-wrapper h1{
 		margin-top:100px;
-		color:white;
 		font-size:50px;
 		font-weight: 300;
 		letter-spacing: 3px;
 	}
 
 	#page-wrapper h2{
-
-		color:white;
 		font-size:30px;
 		font-weight: 100;
 		letter-spacing: 2px;
@@ -857,6 +854,7 @@ html, body
 	.list_title
 	{
 		margin-left: 8px;
+		cursor: pointer;
 	}
 
 	.list_title:hover
