@@ -3,17 +3,14 @@ html, body
 		height: 100%;
 	}
 
-		body
+	body
 	{
 		margin: 0px auto;
 		padding: 0px;
-		background-color: #f2f2f2;
 		font-family: 'Questrial', sans-serif;
 		font-size: 12pt;
 		color: #555;
 	}
-
-
 
 	h1, h2, h3
 	{
@@ -82,6 +79,11 @@ html, body
 	{
 		margin-right: -15px;
 		margin-left: -15px;
+	}
+
+	.align-center
+	{
+		text-align: center;
 	}
 
 
@@ -500,7 +502,7 @@ html, body
 /* Page                                                                          */
 /*********************************************************************************/
 
-		#page-wrapper
+#page-wrapper
 	{
 	  background: url(../img/hero-bg-03.jpg) no-repeat center top;
 	  margin-top: -10px;

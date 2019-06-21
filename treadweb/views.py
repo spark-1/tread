@@ -1,17 +1,17 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_protect
-from .collector.naverDataLab import NaverDataLab
-from .collector.googleTrend import GoogleTrend
+from treadweb.collector.naverDataLab import NaverDataLab
+from treadweb.collector.googleTrend import GoogleTrend
 from datetime import datetime
-from .collector.youtube_api_channelInfo import ChannelInfo
-from .collector.youtube_api_search import YoutubeSearch
+from treadweb.collector.youtube_api_channelInfo import ChannelInfo
+from treadweb.collector.youtube_api_search import YoutubeSearch
 import os
 
 import json
 # Create your views here.
 def home_page(request):
-    return render(request, 'treadweb/base.html')
+    return render(request, 'treadweb/base_home.html')
 
 @cache_page(60 * 15)
 @csrf_protect
@@ -50,9 +50,6 @@ def search_keyword(request, keyword):
 
 def channel_page(request):
     youtube = YoutubeSearch()
-    tag_keys = list(youtube.tags.keys())
-    n = len(tag_keys) // 2
-    tag_list = [tag_keys[:n], tag_keys[n + 1:]]
     channels = youtube.search_channel_orderby_view();
     channel_list = []
     channel_info = ChannelInfo()
@@ -62,28 +59,9 @@ def channel_page(request):
 
     return render(request, 'treadweb/base_channel.html',
                   {
-                      'tag_list': tag_list,
                       'channel_list': channel_list
                     }
                   )
-
-def channel_tag(request, tag):
-    youtube = YoutubeSearch()
-    tag_keys = list(youtube.tags.keys())
-    n = len(tag_keys) // 2
-    tag_list = [tag_keys[:n], tag_keys[n + 1:]]
-
-    channels = youtube.search_channel_orderby_view();
-    channel_list = []
-    channel_info = ChannelInfo()
-    for channel in channels:
-        channel_data = channel_info.get_channel_data(channel["channel_id"])
-        channel_list.append(channel_data)
-    return render(request, 'treadweb/base_channel.html',
-                  {
-                      'tag_list': tag_list,
-                      'channel_list': channel_list
-                  })
 
 def video_page(request):
     youtube = YoutubeSearch()

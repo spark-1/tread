@@ -1,6 +1,6 @@
 from pytrends.request import TrendReq
 import matplotlib.pyplot as plt
-from .data_collector import DataCollector
+from treadweb.collector.data_collector import DataCollector
 import random
 
 class GoogleTrend(DataCollector): # 구글 트렌드를 통해 정보를 가져오는 클래스

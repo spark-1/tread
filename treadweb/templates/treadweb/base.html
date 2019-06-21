@@ -30,10 +30,6 @@
 </head>
 <body>
 
-
-
-
-
 <div id="header-wrapper">
   <div id="header">
     <div id="logo">
@@ -42,61 +38,23 @@
     <div id="menu">
       <ul>
                 {% block menu %}
-                    <li class="current_page_item"><a href="{% url 'treadweb:home' %}" accesskey="1" title="">Home</a></li>
-                    <li><a href="{% url 'treadweb:search' %}" accesskey="2" title="">Search</a></li>
-                    <li><a href="{% url 'treadweb:channel' %}" accesskey="3" title="">Channel</a></li>
-                    <li><a href="{% url 'treadweb:video' %}" accesskey="4" title="">Video</a></li>
-                    <li><a data-toggle="modal" data-target="#myModal" href="#myModal"><i class="fa fa-envelope-o"></i></a></li>
                 {% endblock menu %}
       </ul>
     </div>
   </div>
 </div>
 
-
-
-<div id="page-wrapper">
-    <div class="row centered">
-      <div class="col-lg-8 col-lg-offset-2">
-        <h1>Read Trend information <b>in 2019</b></h1>
-        <h2>You get the latest trends from us <br>give you more information about the trend keyword</h2>
-      </div>
-    </div>
     {% block body0 %}
     {% endblock body0 %}
+
     {% block body1 %}
     {% endblock body1%}
+
     {% block body2 %}
     {% endblock body2 %}
+
     {% block body3 %}
     {% endblock body3 %}
-</div>
-
-
-<div class="container w">
-  <div class="row centered">
-    <br><br>
-    <div class="col-lg-4">
-      <i class="fa fa-google"></i>
-      <h4>GOOGLE TREND</h4>
-      <p>There are many variations of passages</p>
-  </div>
-
-  <div class="col-lg-4">
-    <i class="fa fa-database"></i>
-    <h4>NAVER</h4>
-    <p>There are many variation of passages</p>
-  </div>
-
-  <div class="col-lg-4">
-    <i class="fa fa-youtube"></i>
-    <h4>YOUTUBE</h4>
-    <p>There are many variation of passages</p>
-  </div>
-</div>
-<br><br>
-</div>
-
 
 <div id="copyright">
   <div class="container">

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from dateutil import parser
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-from .data_collector import DataCollector
+from treadweb.collector.data_collector import DataCollector
 from django.contrib.staticfiles.templatetags.staticfiles import static
 import json
 
@@ -31,7 +31,7 @@ class NaverDataLab(DataCollector):
     # ex) naver_searchlist(2019, 5, 21, 23, 30, 0)
     def naver_searchlist(self, time):
         url = 'https://datalab.naver.com/keyword/realtimeList.naver?datetime=' + time
-        response = requests.get(url, headers = headers)
+        response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.content, 'lxml')
 
         rank_tabs = soup.select('.keyword_rank')[0:4]
@@ -77,17 +77,17 @@ class NaverDataLab(DataCollector):
     # - 10: 55∼59세
     # - 11: 60세 이상
     # gender -> 검색 성별 설정 (입력 안하면 male + female 결과 출력) ex) "m" or "f"
-    def keyword_search(self, mainKeyword):
+    def load_data(self, keyword):
         client_id = "gDb5rUUUu3cNZt3fIhxy"
         client_secret = "HWP6j_9S6w"
         url = "https://openapi.naver.com/v1/datalab/search";
         endTime = datetime.now().date().strftime("%Y-%m-%d")
         startTime = (parser.parse(endTime) - timedelta(days=30)).strftime("%Y-%m-%d")
 
-        body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"date\",\"keywordGroups\":[{\"groupName\":\"" + mainKeyword + "\",\"keywords\":["
-        keywords = self.associative_search(mainKeyword)
+        body = "{\"startDate\":\"" + startTime + "\",\"endDate\":\"" + endTime + "\",\"timeUnit\":\"date\",\"keywordGroups\":[{\"groupName\":\"" + keyword + "\",\"keywords\":["
+        keywords = self.associative_search(keyword)
         if keywords == []:
-            keywords.append(mainKeyword)
+            keywords.append(keyword)
         body += ("\"" + keywords[0] + "\"")
         for i in range(1, len(keywords)):
             body += (",\"" + keywords[i] + "\"")
@@ -102,7 +102,7 @@ class NaverDataLab(DataCollector):
         if(rescode==200):
             response_body = response.read()
             tmp = response_body.decode('utf-8')
-            ret = self.str_to_list(tmp, mainKeyword)
+            ret = self.str_to_list(tmp, keyword)
             return ret
         else:
             print("Error Code:" + rescode)
@@ -198,7 +198,7 @@ class NaverDataLab(DataCollector):
         plt.axis("off")
         fig.savefig('treadweb/static/treadweb/img/wordcloud.png', format='png')
 
-        def remove_tag(self, content):
-            cleanr = re.compile('<.*?>')
-            cleantext = re.sub(cleanr, '', content)
-            return cleantext
+    def remove_tag(self, content):
+        cleanr = re.compile('<.*?>')
+        cleantext = re.sub(cleanr, '', content)
+        return cleantext
