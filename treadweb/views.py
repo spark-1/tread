@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_protect
 from treadweb.collector.naverDataLab import NaverDataLab
@@ -7,6 +7,7 @@ from treadweb.collector.googleTrend import GoogleTrend
 from datetime import datetime
 from treadweb.collector.youtube_api_channelInfo import ChannelInfo
 from treadweb.collector.youtube_api_search import YoutubeSearch
+from multiprocessing import Process
 import os
 
 import json
@@ -14,7 +15,7 @@ import json
 def home_page(request):
     return render(request, 'treadweb/base_home.html')
 
-@cache_page(60 * 15)
+@cache_page(10)
 @csrf_protect
 def search_page(request):
     naver = NaverDataLab()
@@ -23,9 +24,12 @@ def search_page(request):
     keyword_rank = naver.naver_searchlist(time)
     return render(request, 'treadweb/base_search.html', {"keyword_rank": keyword_rank})
 
+@cache_page(10)
+@csrf_protect
 def search_keyword(request, keyword):
     naver = NaverDataLab()
-    naver.draw_cloud(keyword)
+    pr1 = Process(target=naver.draw_cloud, args=(keyword,))
+    pr1.start()
     line_result = naver.load_data(keyword)
     keywords = list()
     keywords.append(keyword)
@@ -33,6 +37,7 @@ def search_keyword(request, keyword):
     googletrend.set_payload()
     region_result = googletrend.load_data('region')
     donut_result = googletrend.load_data('gender')
+    pr1.join()
     WC_exists = 'yes' if os.path.exists('treadweb/static/treadweb/img/wordcloud.png') else 'no'
     return JsonResponse({
         'line_result': line_result,
@@ -40,30 +45,6 @@ def search_keyword(request, keyword):
         'gender_result': donut_result,
         'WC_exists': WC_exists
     }, json_dumps_params={'ensure_ascii': True})
-
-# @cache_page(60 * 15)
-# @csrf_protect
-# def search_keyword(request, keyword):
-#     naver = NaverDataLab()
-#     naver.draw_cloud(keyword)
-#     now = datetime.now()
-#     time = now.strftime("%Y-%m-%dT%H:%M:%S")
-#     keyword_rank = naver.naver_searchlist(time)
-#     line_result = naver.load_data(keyword)
-#     keywords = list()
-#     keywords.append(keyword)
-#     googletrend = GoogleTrend(keyword=keywords)
-#     googletrend.set_payload()
-#     region_result = googletrend.load_data('region')
-#     donut_result = googletrend.load_data('gender')
-#     WC_exists = 'yes' if os.path.exists('treadweb/static/treadweb/img/wordcloud.png') else 'no'
-#     return render(request, 'treadweb/base_search.html', {
-#         'keyword_rank': keyword_rank,
-#         'line_result': json.dumps(line_result),
-#         'region_result': json.dumps(region_result),
-#         'donut_result': json.dumps(donut_result),
-#         'WC_exists': WC_exists
-#     })
 
 def channel_page(request):
     youtube = YoutubeSearch()
