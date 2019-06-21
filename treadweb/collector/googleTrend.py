@@ -1,8 +1,9 @@
 from pytrends.request import TrendReq
 import matplotlib.pyplot as plt
+from treadweb.collector.data_collector import DataCollector
 import random
 
-class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래스
+class GoogleTrend(DataCollector): # 구글 트렌드를 통해 정보를 가져오는 클래스
 
     def __init__(self, keyword = ['youtube'], hl = 'ko', tz = '82', timeframe = 'today 5-y', cat = 0, geo = 'KR', gprop = ''): # 생성자 기본 설정 값
         self.hl = hl
@@ -43,6 +44,13 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
         if gprop != 'None': # ex) 'images', 'news', 'youtube', 'froogle'
             self.gprop = gprop
         self.update_payload()
+
+    def load_data(self, keyword=None):
+        if keyword == 'region':
+            self.interest_by_region()
+            return self.interest_by_region_df_to_list()
+        elif keyword == 'gender':
+            return self.search_rate_by_gender()
 
     # Interest Over Time
     def interest_over_time(self):
@@ -165,17 +173,9 @@ class GoogleTrend(): # 구글 트렌드를 통해 정보를 가져오는 클래�
                     data.append([reg_name, tmp_val])
         return data
 
-if __name__ == '__main__':
-    keyword = ['햄버거']
-    googletrend = GoogleTrend()
-    googletrend.set_payload(keyword = keyword)
-    #print(googletrend.interest_over_time())
-    #print(googletrend.historical_hourly_interest())
-    #print(googletrend.interest_by_region())
-    #print(googletrend.related_topics())
-    #print(googletrend.related_queries())
-    #print(googletrend.trending_searches());
-    #print(googletrend.today_searches());
-    #print(googletrend.top_charts())
-    #print(googletrend.categories())
+    def search_rate_by_gender(self):
+        gender_data = []
+        gender_data.append(['male', random.randint(50, 100)])
+        gender_data.append(['female', random.randint(50, 100)])
+        return gender_data
 

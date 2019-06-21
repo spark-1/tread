@@ -8,19 +8,7 @@
 {% endblock menu %}
 
 {% block body0 %}
-    <div class="tagd">
-    {% if tag_list %}
-        {% for tags in tag_list %}
-        <div class="tagd-wrapper">
-            <div class="tagd-items">
-                {% for tag in tags %}
-                    <div class="tagd-item"><a href="{% url 'treadweb:channel_tag' tag %}">#{{ tag }}</a></div>
-                {% endfor %}
-            </div>
-        </div>
-        {% endfor %}
-    {% endif %}
-    </div>
+
 {% endblock body0 %}
 
 {% block body1 %}
