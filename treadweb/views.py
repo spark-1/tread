@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_protect
 from treadweb.collector.naverDataLab import NaverDataLab
+from treadweb.collector.wordcloud import TreadWordCloud
 from treadweb.collector.googleTrend import GoogleTrend
 from datetime import datetime
 from treadweb.collector.youtube_api_channelInfo import ChannelInfo
@@ -28,7 +29,8 @@ def search_page(request):
 @csrf_protect
 def search_keyword(request, keyword):
     naver = NaverDataLab()
-    pr1 = Process(target=naver.draw_cloud, args=(keyword,))
+    wc = TreadWordCloud()
+    pr1 = Process(target=wc.draw_cloud, args=(keyword,))
     pr1.start()
     line_result = naver.load_data(keyword)
     keywords = list()
