@@ -3,4 +3,4 @@ __pycache__
 .idea/
 static/admin/
 tread_privacy.txt
-treadweb/static/treadweb/img/wordcloud/
+treadweb/static/treadweb/img/
