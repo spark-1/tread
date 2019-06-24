@@ -351,20 +351,22 @@ html, body
 	#logo a
 	{
 		text-decoration: none;
-		color: #F67C78;
+		color: #d60012;
+		font-size: 2.5em;
+		padding-top: 30px;
 	}
 
 	#logo span
 	{
-		padding-right: 0.5em;
+		padding-right: 1.5em;
 		text-transform: uppercase;
-		font-size: 0.90em;
-		color: #F67C78;
+		font-size: 1.3em;
+		color: #d60012;
 }
 
 	#logo span a
 	{
-		color: #F67C78;
+		color: #d60012;
 	}
 
 
