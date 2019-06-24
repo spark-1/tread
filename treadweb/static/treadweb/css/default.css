@@ -539,10 +539,11 @@ html, body
 		font-size:30px;
 		font-weight: 100;
 		letter-spacing: 2px;
-
 	}
 
-
+	#main-wrapper h2{
+		color: white;
+	}
 
 /******************SECTIONS********************/
 
