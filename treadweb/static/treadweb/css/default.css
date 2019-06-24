@@ -136,11 +136,11 @@ html, body
 	  padding: 5px;
 	  border-radius: 5px 0 0 5px;
 	  outline: none;
-	  color: black;
+	  color: gray;
 	}
 
 	.searchTerm:focus{
-	  color: #00B4CC;
+	  color: black;
 	}
 
 	.searchButton {
