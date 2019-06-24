@@ -16,7 +16,6 @@ html, body
 	{
 		margin: 0;
 		padding: 0;
-		color: #404040;
 	}
 
 	p, ol, ul
@@ -115,103 +114,52 @@ html, body
 		font-weight:300;
 	}
 
-
+	#home-content
+	{
+		color: white !important;
+	}
 /*********************************************************************************/
 /* Form Style                                                                    */
 /*********************************************************************************/
 
-		#form
-		{
-		}
+	.search {
+	  width: 100%;
+	  position: relative;
+	  display: flex;
+	}
 
-			#form label
-			{
-				display: block;
-				text-align: left;
-				margin-bottom: 0.5em;
-			}
+	.searchTerm {
+	  width: 100%;
+	  height: 36px;
+	  border: 3px solid #D60012;
+	  border-right: none;
+	  padding: 5px;
+	  border-radius: 5px 0 0 5px;
+	  outline: none;
+	  color: #9DBFAF;
+	}
 
-			#form .submit
-			{
-				margin-top: 2em;
-				line-height: 1.5em;
-				font-size: 1.3em;
-			}
+	.searchTerm:focus{
+	  color: #00B4CC;
+	}
 
-			#form input.text,
-			#form select,
-			#form textarea
-			{
-				position: relative;
-				-webkit-appearance: none;
-				display: block;
-				border: 0;
-				background: #fff;
-				background: rgba(255,255,255,0.75);
-				width: 100%;
-				border-radius: 0.50em;
-				margin: 1em 0em;
-				padding: 1.50em 1em;
-				box-shadow: inset 0 0.1em 0.1em 0 rgba(0,0,0,0.05);
-				border: solid 1px rgba(0,0,0,0.15);
-				-moz-transition: all 0.35s ease-in-out;
-				-webkit-transition: all 0.35s ease-in-out;
-				-o-transition: all 0.35s ease-in-out;
-				-ms-transition: all 0.35s ease-in-out;
-				transition: all 0.35s ease-in-out;
-				font-size: 1em;
-				outline: none;
-			}
+	.searchButton {
+	  width: 40px;
+	  height: 36px;
+	  border: 1px solid #D60012;
+	  background: #D60012;
+	  text-align: center;
+	  color: #fff;
+	  border-radius: 0 5px 5px 0;
+	  cursor: pointer;
+	  font-size: 20px;
+	}
 
-				#form input.text:hover,
-				#form select:hover,
-				#form textarea:hover
-				{
-				}
-
-				#form input.text:focus,
-				#form select:focus,
-				#form textarea:focus
-				{
-					box-shadow: 0 0 2px 1px #E0E0E0;
-					background: #fff;
-				}
-
-				#form textarea
-				{
-					min-height: 12em;
-				}
-
-				#form .formerize-placeholder
-				{
-					color: #555 !important;
-				}
-
-				#form ::-webkit-input-placeholder
-				{
-					color: #555 !important;
-				}
-
-				#form :-moz-placeholder
-				{
-					color: #555 !important;
-				}
-
-				#form ::-moz-placeholder
-				{
-					color: #555 !important;
-				}
-
-				#form :-ms-input-placeholder
-				{
-					color: #555 !important;
-				}
-
-				#form ::-moz-focus-inner
-				{
-					border: 0;
-				}
-
+	/*Resize the wrap to see the search bar change!*/
+	.wrap{
+	  width: 30%;
+		margin: 80px auto;
+	}
 
 /*********************************************************************************/
 /* Image Style                                                                   */
