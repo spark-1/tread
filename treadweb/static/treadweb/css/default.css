@@ -136,7 +136,7 @@ html, body
 	  padding: 5px;
 	  border-radius: 5px 0 0 5px;
 	  outline: none;
-	  color: #9DBFAF;
+	  color: black;
 	}
 
 	.searchTerm:focus{
