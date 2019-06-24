@@ -2,6 +2,7 @@ function search_keyword(keyword) {
     if(typeof keyword == 'undefined') {
         keyword = document.getElementById('keyword_text').value
     }
+
     var WCExist = false;
     axios.get('/tread/search/'+keyword)
         .then(function (response) {
@@ -34,9 +35,11 @@ function search_keyword(keyword) {
                             '<img src="../../static/treadweb/img/wordcloud.png"/></div>'
             }
             new Vue({
+                delimiters: ['${', '}'],
                 el: '#page-wrapper',
                 data: {
-                    WC_exist: WCExist
+                    WC_exist: WCExist,
+                    keyword: keyword
                 },
                 components: {
                     'line-chart-component': lineComponent,
